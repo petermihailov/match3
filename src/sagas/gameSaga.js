@@ -1,15 +1,15 @@
 import * as m3 from 'm3lib';
-import actions, {types} from './../actions/grid'
+import actions, {types} from '../actions/grid'
 import animations from './../animations/grid'
 import {put, call, takeLatest, select} from 'redux-saga/effects'
-import {getGrid} from './selectors'
+import {getGame} from './selectors'
 
 const TYPES = 5;
 const DELAY = 200;
 
 import {delay} from 'redux-saga'
 
-export default function* gridSaga() {
+export default function* gameSaga() {
   yield takeLatest(types.MOVE, move);
 }
 
@@ -18,7 +18,7 @@ function* move(action) {
 
   yield call(swap, {gridNode, from, to});
 
-  const {grid} = yield select(getGrid);
+  const {grid} = yield select(getGame);
   const matches = m3.getMatches(grid);
 
   if (matches.length > 0) {
@@ -29,24 +29,20 @@ function* move(action) {
 }
 
 function* swap({gridNode, from, to}) {
-  const {grid} = yield select(getGrid);
   yield call(animations.swap, {gridNode, from, to});
-  yield put(actions.setGrid(m3.swap(grid, {from, to})));
+  yield put(actions.swap({from, to}));
 }
 
 function* removeMatches(matches) {
-  const {grid} = yield select(getGrid);
-  yield put(actions.setGrid(m3.removeMatches(grid, matches)));
+  yield put(actions.removeMatches( matches));
 }
 
 function* applyGravity() {
-  const {grid} = yield select(getGrid);
-  yield put(actions.setGrid(m3.applyGravity(grid)));
+  yield put(actions.applyGravity());
 }
 
 function* fillVoid() {
-  const {grid} = yield select(getGrid);
-  yield put(actions.setGrid(m3.fillVoid(grid, TYPES)));
+  yield put(actions.fillVoid());
 }
 
 function* findAndRemoveMatches(matches, acc = []) {
@@ -59,7 +55,7 @@ function* findAndRemoveMatches(matches, acc = []) {
     yield call(fillVoid);
     yield delay(DELAY);
 
-    const {grid} = yield select(getGrid);
+    const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
   } else {
     console.log(`matches: ${acc.length}, points: %c ${sumPoints(sumRemoved(acc))} `, 'background: #222; color: #bada55');

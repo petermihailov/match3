@@ -4,8 +4,6 @@ import {createStore, applyMiddleware, combineReducers, compose} from 'redux'
 import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import helloSaga from './sagas'
-import './components/base/reset.css'
-import './components/base/main.css'
 
 import Grid from './containers/grid'
 

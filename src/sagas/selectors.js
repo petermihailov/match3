@@ -1,1 +1,1 @@
-export const getGrid = state => state.grid;
+export const getGame = state => state.game;

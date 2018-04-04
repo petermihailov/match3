@@ -1,5 +1,5 @@
-import grid from './grid';
+import game from './game';
 
 export {
-  grid
+  game
 };

@@ -1,8 +1,8 @@
 import {all, fork} from "redux-saga/effects";
-import gridSaga from './gridSaga';
+import gameSaga from './gameSaga';
 
 export default function* run() {
   yield all([
-    fork(gridSaga)
+    fork(gameSaga)
   ]);
 }

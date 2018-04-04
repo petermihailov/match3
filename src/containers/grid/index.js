@@ -10,6 +10,11 @@ class Grid extends Component {
     active: null
   };
 
+  componentDidMount() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
   setActive(row, col) {
     const {move} = this.props;
     const {active} = this.state;
@@ -51,7 +56,9 @@ class Grid extends Component {
                   data-row={row}
                   data-col={col}
                   onClick={() => this.setActive(row, col)}
-                />
+                >
+                  <span className={styles.points}>{piece.type * 100}</span>
+                </span>
               )
             } else {
               return (
@@ -67,6 +74,7 @@ class Grid extends Component {
             }
           }))
         }
+        <canvas ref={(node) => this.canvas = node}/>
       </div>
     );
   }
@@ -74,7 +82,7 @@ class Grid extends Component {
 
 export default connect(
   (state) => ({
-    ...state.grid
+    ...state.game
   }),
   (dispatch) => ({
     move: (options) => dispatch(actions.grid.move(options))
