@@ -1,19 +1,12 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import actions from './../../actions';
 import cn from 'classnames';
 import * as m3 from 'm3lib';
 import styles from './grid.scss';
 
-class Grid extends Component {
+export default class Grid extends Component {
   state = {
     active: null
   };
-
-  componentDidMount() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-  }
 
   setActive(row, col) {
     const {move} = this.props;
@@ -38,12 +31,12 @@ class Grid extends Component {
 
   render() {
     const {active} = this.state;
-    const {grid} = this.props;
+    const {data} = this.props;
 
     return (
       <div className={styles.grid} ref={(node) => this.grid = node}>
         {
-          grid.map((i, row) => i.map((piece, col) => {
+          data.map((i, row) => i.map((piece, col) => {
             if (piece !== null) {
               return (
                 <span
@@ -74,17 +67,7 @@ class Grid extends Component {
             }
           }))
         }
-        <canvas ref={(node) => this.canvas = node}/>
       </div>
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    ...state.game
-  }),
-  (dispatch) => ({
-    move: (options) => dispatch(actions.grid.move(options))
-  }),
-)(Grid);

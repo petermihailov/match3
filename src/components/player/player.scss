@@ -1,0 +1,15 @@
+.player {
+  display: flex;
+
+  .points {
+    padding: 0 .25em;
+  }
+
+  &.right {
+    justify-content: flex-end;
+
+    .name {
+      order: 1;
+    }
+  }
+}

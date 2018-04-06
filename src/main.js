@@ -5,7 +5,7 @@ import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import helloSaga from './sagas'
 
-import Grid from './containers/grid'
+import Game from './containers/game'
 
 import * as reducers from './reducers/index'
 
@@ -19,8 +19,6 @@ sagaMiddleware.run(helloSaga);
 
 ReactDOM.render((
   <Provider store={store}>
-    <div className="App">
-      <Grid/>
-    </div>
+    <Game/>
   </Provider>
 ), document.getElementById('root'));

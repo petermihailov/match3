@@ -1,0 +1,41 @@
+.timer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(1.5);
+
+  .arrow-left,
+  .arrow-right {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    transition: ease-in 0.15s;
+    transition-property: opacity, transform;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  .arrow-left {
+    left: 0;
+    border-right: 5px solid #fff;
+
+    &.active {
+      transform: translateX(-10px);
+    }
+  }
+
+  .arrow-right {
+    right: 0;
+    border-left: 5px solid #fff;
+
+    &.active {
+      transform: translateX(10px);
+    }
+  }
+}

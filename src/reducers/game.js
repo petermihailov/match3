@@ -6,7 +6,18 @@ const initialState = {
   cols: 6,
   rows: 6,
   types: 5,
-  locked: false
+  locked: false,
+  moveMakes: 'left',
+  players: {
+    left: {
+      name: '🎃',
+      points: 0
+    },
+    right: {
+      name: '🥕',
+      points: 0
+    }
+  }
 };
 
 export default function reduce(state = initialState, action = {}) {
