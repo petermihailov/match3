@@ -4,7 +4,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --mode development --port 1234",
+    "start": "webpack-dev-server --mode development --port 1234 --host 0.0.0.0",
     "build": "webpack --mode production"
   },
   "repository": {

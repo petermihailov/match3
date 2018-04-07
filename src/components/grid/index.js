@@ -50,7 +50,7 @@ export default class Grid extends Component {
                   data-col={col}
                   onClick={() => this.setActive(row, col)}
                 >
-                  <span className={styles.points}>{piece.type * 100}</span>
+                  <span className={styles.score}>{piece.type * 100}</span>
                 </span>
               )
             } else {

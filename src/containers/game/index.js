@@ -10,11 +10,11 @@ import {
 
 class Game extends Component {
   render() {
-    const {grid, players, moveExpires, moveMakes} = this.props;
+    const {grid, players, moveExpires, mover} = this.props;
 
     return (
       <div className={styles.game}>
-        <StatusBar {...{players, moveExpires, moveMakes}} />
+        <StatusBar {...{players, moveExpires, mover}} />
         <Grid data={grid} move={this.props.move}/>
       </div>
     );

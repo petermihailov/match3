@@ -4,7 +4,7 @@ import styles from './player.scss';
 
 export default class Player extends Component {
   render() {
-    const {name, points, right} = this.props;
+    const {name, score, right} = this.props;
 
     return (
       <div className={cn(
@@ -14,7 +14,7 @@ export default class Player extends Component {
         }
       )}>
         <span className={styles.name}>{name}</span>
-        <span className={styles.points}>{(points).toLocaleString('en')}</span>
+        <span className={styles.score}>{(score).toLocaleString('en')}</span>
       </div>
     );
   }

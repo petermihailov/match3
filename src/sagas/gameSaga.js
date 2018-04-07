@@ -1,16 +1,14 @@
 import * as m3 from 'm3lib';
-import actions, {types} from '../actions/grid'
+import actions, {types} from '../actions'
 import animations from './../animations/grid'
-import {put, call, takeLatest, select} from 'redux-saga/effects'
+import {put, call, takeEvery, select} from 'redux-saga/effects'
+import {delay} from 'redux-saga'
 import {getGame} from './selectors'
 
-const TYPES = 5;
 const DELAY = 200;
 
-import {delay} from 'redux-saga'
-
 export default function* gameSaga() {
-  yield takeLatest(types.MOVE, move);
+  yield takeEvery(types.grid.MOVE, move);
 }
 
 function* move(action) {
@@ -30,19 +28,19 @@ function* move(action) {
 
 function* swap({gridNode, from, to}) {
   yield call(animations.swap, {gridNode, from, to});
-  yield put(actions.swap({from, to}));
+  yield put(actions.grid.swap({from, to}));
 }
 
 function* removeMatches(matches) {
-  yield put(actions.removeMatches( matches));
+  yield put(actions.grid.removeMatches( matches));
 }
 
 function* applyGravity() {
-  yield put(actions.applyGravity());
+  yield put(actions.grid.applyGravity());
 }
 
 function* fillVoid() {
-  yield put(actions.fillVoid());
+  yield put(actions.grid.fillVoid());
 }
 
 function* findAndRemoveMatches(matches, acc = []) {
@@ -58,8 +56,27 @@ function* findAndRemoveMatches(matches, acc = []) {
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
   } else {
-    console.log(`matches: ${acc.length}, points: %c ${sumPoints(sumRemoved(acc))} `, 'background: #222; color: #bada55');
+    const points = sumPoints(sumRemoved(acc));
+
+    yield addPoints(points);
+    yield switchMover();
   }
+}
+
+function* addPoints(points) {
+  const {mover, players} = yield select(getGame);
+  const score = players[mover].score + points;
+
+  yield put(actions.game.setScore({mover, score}));
+
+  if (score >= 10000) {
+    alert(`Player ${players[mover].name} win!`)
+  }
+}
+
+function* switchMover() {
+  const {mover} = yield select(getGame);
+  yield put(actions.game.setMover(mover === 'left' ? 'right' : 'left'));
 }
 
 function sumRemoved(matches) {
