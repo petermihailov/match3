@@ -23,6 +23,11 @@ const initialState = {
 export default function reduce(state = initialState, action = {}) {
   switch (action.type) {
     // grid reducers
+    case types.grid.LOCK:
+      return ({
+        ...state,
+        locked: action.payload
+      });
     case types.grid.CREATE_LEVEL:
       return ({
         ...state,

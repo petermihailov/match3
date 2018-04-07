@@ -10,12 +10,12 @@ import {
 
 class Game extends Component {
   render() {
-    const {grid, players, moveExpires, mover} = this.props;
+    const {grid, players, moveExpires, mover, locked, onMove} = this.props;
 
     return (
       <div className={styles.game}>
         <StatusBar {...{players, moveExpires, mover}} />
-        <Grid data={grid} move={this.props.move}/>
+        <Grid data={grid} onMove={onMove} locked={locked}/>
       </div>
     );
   }
@@ -26,6 +26,6 @@ export default connect(
     ...state.game
   }),
   (dispatch) => ({
-    move: (options) => dispatch(actions.grid.move(options))
+    onMove: (options) => dispatch(actions.grid.move(options))
   }),
 )(Game);

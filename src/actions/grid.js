@@ -8,6 +8,7 @@ export const types = {
   FILL_VOID: 'FILL_VOID',
   SET_GRID: 'SET_GRID',
   MOVE: 'MOVE',
+  LOCK: 'LOCK',
 };
 
 const actions = ({
@@ -18,6 +19,7 @@ const actions = ({
   fillVoid: makeAction(types.FILL_VOID),
   setGrid: makeAction(types.SET_GRID),
   move: makeAction(types.MOVE),
+  lock: makeAction(types.LOCK),
 });
 
 export default actions;

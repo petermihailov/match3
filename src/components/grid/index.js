@@ -9,8 +9,12 @@ export default class Grid extends Component {
   };
 
   setActive(row, col) {
-    const {move} = this.props;
+    const {locked, onMove} = this.props;
     const {active} = this.state;
+
+    if (locked) {
+      return;
+    }
 
     if (active) {
       this.setState({active: null});
@@ -18,7 +22,7 @@ export default class Grid extends Component {
       const to = {row, col};
 
       if (m3.isNeighbor(from, to)) {
-        move({gridNode: this.grid, from, to});
+        onMove({gridNode: this.grid, from, to});
       } else {
         if (active.row !== row || active.col !== col) {
           this.setState({active: {row, col}})
@@ -31,10 +35,16 @@ export default class Grid extends Component {
 
   render() {
     const {active} = this.state;
-    const {data} = this.props;
+    const {data, locked} = this.props;
 
     return (
-      <div className={styles.grid} ref={(node) => this.grid = node}>
+      <div
+        ref={(node) => this.grid = node}
+        className={cn(
+          styles.grid,
+          {[styles.locked]: locked}
+        )}
+      >
         {
           data.map((i, row) => i.map((piece, col) => {
             if (piece !== null) {

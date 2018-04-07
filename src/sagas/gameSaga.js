@@ -12,6 +12,7 @@ export default function* gameSaga() {
 }
 
 function* move(action) {
+  yield put(actions.grid.lock(true));
   const {gridNode, from, to} = action.payload;
 
   yield call(swap, {gridNode, from, to});
@@ -21,9 +22,19 @@ function* move(action) {
 
   if (matches.length > 0) {
     yield call(findAndRemoveMatches, matches);
+
+    const {grid} = yield select(getGame);
+
+    if (m3.getMoves(grid).length === 0) {
+      alert('not moves, regenerating field');
+      yield put(actions.grid.CREATE_LEVEL());
+    }
+
+    yield switchMover();
   } else {
     yield call(swap, {gridNode, from: to, to: from});
   }
+  yield put(actions.grid.lock(false));
 }
 
 function* swap({gridNode, from, to}) {
@@ -56,16 +67,7 @@ function* findAndRemoveMatches(matches, acc = []) {
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
   } else {
-    const {grid} = yield select(getGame);
-
     yield addPoints(sumPoints(sumRemoved(acc)));
-
-    if (m3.getMoves(grid).length === 0) {
-      console.log('not moves, regenerating field');
-      yield put(actions.grid.CREATE_LEVEL());
-    }
-
-    yield switchMover();
   }
 }
 
