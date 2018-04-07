@@ -56,9 +56,15 @@ function* findAndRemoveMatches(matches, acc = []) {
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
   } else {
-    const points = sumPoints(sumRemoved(acc));
+    const {grid} = yield select(getGame);
 
-    yield addPoints(points);
+    yield addPoints(sumPoints(sumRemoved(acc)));
+
+    if (m3.getMoves(grid).length === 0) {
+      console.log('not moves, regenerating field');
+      yield put(actions.grid.CREATE_LEVEL());
+    }
+
     yield switchMover();
   }
 }
