@@ -20,7 +20,7 @@ export default class Grid extends Component {
       if (m3.isNeighbor(from, to)) {
         move({gridNode: this.grid, from, to});
       } else {
-        if (active.row !== row && active.col !== col) {
+        if (active.row !== row || active.col !== col) {
           this.setState({active: {row, col}})
         }
       }
