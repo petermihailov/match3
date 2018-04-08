@@ -1,14 +1,45 @@
 import * as m3 from 'm3lib';
 import actions, {types} from '../actions'
 import animations from './../animations/grid'
-import {put, call, takeEvery, select} from 'redux-saga/effects'
+import {put, call, takeEvery, takeLatest, select} from 'redux-saga/effects'
 import {delay} from 'redux-saga'
 import {getGame} from './selectors'
 
 const DELAY = 200;
+const MOVE_TIME = 30000;
+const SCORE_TO_WIN = 10000;
+const MISSED_MOVES_TO_LOOSE = 2;
 
 export default function* gameSaga() {
   yield takeEvery(types.grid.MOVE, move);
+  yield takeLatest(types.game.START_GAME, startGame);
+  yield takeEvery(types.game.MISS_MOVE, endMove);
+}
+
+function* startGame() {
+  yield put(actions.grid.createLevel());
+  yield put(actions.game.setMover(Math.random() >= 0.5 ? 'left' : 'right'));
+  yield put(actions.grid.lock(false));
+  yield startMove();
+}
+
+function* endGame(message) {
+  yield put(actions.grid.lock(true));
+  yield put(actions.game.setMover(null));
+  yield put(actions.game.setTimer(null));
+  alert(message);
+}
+
+function* checkWinner() {
+  const {players} = yield select(getGame);
+
+  const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= SCORE_TO_WIN);
+  const pointsWinner = pointsWinnerMover && players[pointsWinnerMover];
+
+  const technicalLooserMover = Object.keys(players).find((player) => players[player].missedMoves >= MISSED_MOVES_TO_LOOSE);
+  const technicalWinner = technicalLooserMover && players[technicalLooserMover === 'left' ? 'right' : 'left'];
+
+  return pointsWinner || technicalWinner;
 }
 
 function* move(action) {
@@ -21,20 +52,38 @@ function* move(action) {
   const matches = m3.getMatches(grid);
 
   if (matches.length > 0) {
+    yield put(actions.game.setTimer(null));
     yield call(findAndRemoveMatches, matches);
-
-    const {grid} = yield select(getGame);
-
-    if (m3.getMoves(grid).length === 0) {
-      alert('not moves, regenerating field');
-      yield put(actions.grid.CREATE_LEVEL());
-    }
-
-    yield switchMover();
+    yield put(actions.game.resetMissedMoves());
+    yield endMove();
   } else {
     yield call(swap, {gridNode, from: to, to: from});
   }
+
   yield put(actions.grid.lock(false));
+}
+
+function* startMove() {
+  yield put(actions.game.setTimer(new Date().getTime() + MOVE_TIME));
+}
+
+function* endMove() {
+  yield put(actions.game.setTimer(null));
+
+  const winner = yield checkWinner();
+  if (winner) {
+    yield endGame(`Player ${winner.name} win!`);
+    return;
+  }
+
+  const {grid} = yield select(getGame);
+  if (m3.getMoves(grid).length === 0) {
+    alert('not moves, regenerating field');
+    yield put(actions.grid.CREATE_LEVEL());
+  }
+
+  yield switchMover();
+  yield startMove();
 }
 
 function* swap({gridNode, from, to}) {
@@ -76,10 +125,6 @@ function* addPoints(points) {
   const score = players[mover].score + points;
 
   yield put(actions.game.setScore({mover, score}));
-
-  if (score >= 10000) {
-    alert(`Player ${players[mover].name} win!`)
-  }
 }
 
 function* switchMover() {

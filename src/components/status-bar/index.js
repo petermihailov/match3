@@ -9,14 +9,14 @@ import {
 
 export default class StatusBar extends Component {
   render() {
-    const {players, moveExpires, mover} = this.props;
+    const {players, moveExpireAt, mover, onMissMove} = this.props;
 
     return (
       <div className={cn(
         styles['status-bar']
       )}>
         <Player {...players.left}/>
-        <Timer expires={moveExpires} arrowPosition={mover}/>
+        <Timer moveExpireAt={moveExpireAt} arrowPosition={mover} onMissMove={onMissMove}/>
         <Player {...players.right} right/>
       </div>
     );

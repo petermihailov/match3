@@ -2,20 +2,23 @@ import * as m3 from 'm3lib';
 import {types} from '../actions';
 
 const initialState = {
-  grid: m3.createLevel({cols: 6, rows: 6, types: 5}),
+  grid: [[]],
   cols: 6,
   rows: 6,
   types: 5,
-  locked: false,
-  mover: Math.random() >= 0.5 ? 'left' : 'right',
+  locked: true,
+  mover: null,
+  moveExpireAt: null,
   players: {
     left: {
       name: '🎃',
-      score: 0
+      score: 0,
+      missedMoves: 0
     },
     right: {
       name: '🥕',
-      score: 0
+      score: 0,
+      missedMoves: 0
     }
   }
 };
@@ -61,23 +64,69 @@ export default function reduce(state = initialState, action = {}) {
 
     // game reducers
     case types.game.SET_MOVER:
-      return ({
-        ...state,
-        mover: action.payload
-      });
+    return ({
+      ...state,
+      mover: action.payload
+    });
+
     case types.game.SET_SCORE:
-      const players = {
-        left: {...state.players.left},
-        right: {...state.players.right}
-      };
-
-      players[action.payload.mover].score = action.payload.score;
-
       return ({
         ...state,
-        players
+        players: setScore(state, action.payload)
       });
+
+    case types.game.SET_TIMER:
+      return ({
+        ...state,
+        moveExpireAt: action.payload
+      });
+
+    case types.game.MISS_MOVE:
+      return ({
+        ...state,
+        players: missMove(state)
+      });
+
+    case types.game.RESET_MISSED_MOVES:
+      return ({
+        ...state,
+        players: resetMissedMoves(state)
+      });
+
     default:
       return state;
   }
+}
+
+function setScore(state, {mover, score}) {
+  const players = {
+    left: {...state.players.left},
+    right: {...state.players.right}
+  };
+
+  players[mover].score = score;
+
+  return players;
+}
+
+function missMove(state) {
+  const players = {
+    left: {...state.players.left},
+    right: {...state.players.right}
+  };
+
+  players[state.mover].missedMoves += 1;
+
+  return players
+}
+
+function resetMissedMoves(state) {
+  const players = {
+    left: {...state.players.left},
+    right: {...state.players.right}
+  };
+
+  players[state.mover].missedMoves = 0;
+
+  return players
 }

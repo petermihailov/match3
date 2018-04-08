@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 25px;
   transform: scale(1.5);
 
   .arrow-left,
@@ -37,5 +38,9 @@
     &.active {
       transform: translateX(10px);
     }
+  }
+
+  .warning {
+    color: #E74C3E;
   }
 }
