@@ -85,7 +85,7 @@ function* endMove() {
   const {grid} = yield select(getGame);
   if (m3.getMoves(grid).length === 0) {
     alert('not moves, regenerating field');
-    yield put(actions.grid.CREATE_LEVEL());
+    yield put(actions.grid.createLevel());
   }
 
   yield switchMover();
