@@ -4,7 +4,6 @@ import styles from './timer.scss';
 
 export default class Timer extends Component {
   state = {
-    expire: null,
     seconds: 0
   };
 
@@ -58,7 +57,7 @@ export default class Timer extends Component {
         )}/>
         <span className={cn({[styles.warning]: this.state.seconds <= 5})}>
           {
-            this.state.seconds > 0
+            this.state.seconds > 0 && arrowPosition
               ? this.state.seconds.toString().padStart(2, "0")
               : null
           }

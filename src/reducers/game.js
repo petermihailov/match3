@@ -63,11 +63,14 @@ export default function reduce(state = initialState, action = {}) {
       });
 
     // game reducers
+    case types.game.RESET_GAME:
+      return (initialState);
+
     case types.game.SET_MOVER:
-    return ({
-      ...state,
-      mover: action.payload
-    });
+      return ({
+        ...state,
+        mover: action.payload
+      });
 
     case types.game.SET_SCORE:
       return ({

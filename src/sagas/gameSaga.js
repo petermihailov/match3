@@ -27,7 +27,13 @@ function* endGame(message) {
   yield put(actions.grid.lock(true));
   yield put(actions.game.setMover(null));
   yield put(actions.game.setTimer(null));
-  alert(message);
+
+  const restart = confirm(message);
+
+  if (restart) {
+    yield put(actions.game.resetGame());
+    yield startGame();
+  }
 }
 
 function* checkWinner() {
@@ -58,13 +64,13 @@ function* move(action) {
     yield endMove();
   } else {
     yield call(swap, {gridNode, from: to, to: from});
+    yield put(actions.grid.lock(false));
   }
-
-  yield put(actions.grid.lock(false));
 }
 
 function* startMove() {
   yield put(actions.game.setTimer(new Date().getTime() + MOVE_TIME));
+  yield put(actions.grid.lock(false));
 }
 
 function* endMove() {
@@ -72,7 +78,7 @@ function* endMove() {
 
   const winner = yield checkWinner();
   if (winner) {
-    yield endGame(`Player ${winner.name} win!`);
+    yield endGame(`Player ${winner.name} win! 🎉\nRestart?`);
     return;
   }
 
