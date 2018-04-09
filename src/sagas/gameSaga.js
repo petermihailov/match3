@@ -17,6 +17,7 @@ export default function* gameSaga() {
 }
 
 function* startGame() {
+  yield put(actions.game.resetGame());
   yield put(actions.grid.createLevel());
   yield put(actions.game.setMover(Math.random() >= 0.5 ? 'left' : 'right'));
   yield put(actions.grid.lock(false));
