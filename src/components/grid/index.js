@@ -4,34 +4,74 @@ import * as m3 from 'm3lib';
 import styles from './grid.scss';
 
 export default class Grid extends Component {
+  touchstartX = 0;
+  touchstartY = 0;
+  touchendX = 0;
+  touchendY = 0;
+
   state = {
     active: null
   };
 
-  setActive(row, col) {
+  setActive = (e) => {
     const {locked, onMove} = this.props;
-    const {active} = this.state;
 
     if (locked) {
       return;
     }
 
-    if (active) {
-      this.setState({active: null});
-      const from = active;
-      const to = {row, col};
+    const pieceNode = e.target.closest('.' + styles.piece);
 
-      if (m3.isNeighbor(from, to)) {
-        onMove({gridNode: this.grid, from, to});
+    if (pieceNode) {
+      const {active} = this.state;
+
+      const col = parseInt(pieceNode.dataset.col);
+      const row = parseInt(pieceNode.dataset.row);
+
+      if (active) {
+        this.setState({active: null});
+        const from = active;
+        const to = {row, col};
+
+        if (m3.isNeighbor(from, to)) {
+          onMove({gridNode: this.grid, from, to});
+        } else {
+          if (active.row !== row || active.col !== col) {
+            this.setState({active: {row, col}})
+          }
+        }
       } else {
-        if (active.row !== row || active.col !== col) {
-          this.setState({active: {row, col}})
+        this.setState({active: {row, col}})
+      }
+    }
+  };
+
+  resetActive = () => this.setState({active: null});
+
+  handleSwipe = () => {
+    const {active} = this.state;
+
+    const dHorizontal = this.touchstartX - this.touchendX;
+    const dVertical = this.touchstartY - this.touchendY;
+
+    const isSwipe = Math.abs(Math.abs(dHorizontal) - Math.abs(dVertical)) > 10;
+
+    if (isSwipe && active) {
+      if (Math.abs(dHorizontal) > Math.abs(dVertical)) {
+        if (dHorizontal > 0) {
+          this.props.onMove({gridNode: this.grid, from: active, to: {...active, col: active.col - 1}});
+        } else {
+          this.props.onMove({gridNode: this.grid, from: active, to: {...active, col: active.col + 1}});
+        }
+      } else if (Math.abs(dHorizontal) < Math.abs(dVertical)) {
+        if (dVertical > 0) {
+          this.props.onMove({gridNode: this.grid, from: active, to: {...active, row: active.row - 1}});
+        } else {
+          this.props.onMove({gridNode: this.grid, from: active, to: {...active, row: active.row + 1}});
         }
       }
-    } else {
-      this.setState({active: {row, col}})
     }
-  }
+  };
 
   render() {
     const {active} = this.state;
@@ -44,12 +84,13 @@ export default class Grid extends Component {
           styles.grid,
           {[styles.locked]: locked}
         )}
+        onClick={this.setActive}
       >
         {
           data.map((i, row) => i.map((piece, col) => {
             if (piece !== null) {
               return (
-                <span
+                <div
                   key={'' + col + row}
                   className={cn(
                     styles.piece,
@@ -58,14 +99,24 @@ export default class Grid extends Component {
                   )}
                   data-row={row}
                   data-col={col}
-                  onClick={() => this.setActive(row, col)}
+                  onTouchStart={(event) => {
+                    this.touchstartX = event.changedTouches[0].screenX;
+                    this.touchstartY = event.changedTouches[0].screenY;
+                    this.setActive(event);
+                  }}
+                  onTouchEnd={(event) => {
+                    this.touchendX = event.changedTouches[0].screenX;
+                    this.touchendY = event.changedTouches[0].screenY;
+                    this.handleSwipe();
+                    this.resetActive();
+                  }}
                 >
                   <span className={styles.score}>{piece.type * 100}</span>
-                </span>
+                </div>
               )
             } else {
               return (
-                <span
+                <div
                   key={'' + col + row}
                   className={cn(
                     styles.piece
