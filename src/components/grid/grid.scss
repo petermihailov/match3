@@ -9,6 +9,7 @@
   background: hsl(0, 0%, 25%);
   border: 10px solid hsl(0, 0%, 25%);
   border-radius: 5px;
+  opacity: 0.1;
 
   .piece {
     position: relative;
@@ -23,27 +24,27 @@
   }
 
   .type-1 {
-    color: var(--piece-color-1);
+    color: var(--color-malachite);
     background: currentColor;
   }
 
   .type-2 {
-    color: var(--piece-color-2);
+    color: var(--color-sunshade);
     background: currentColor;
   }
 
   .type-3 {
-    color: var(--piece-color-3);
+    color: var(--color-cinnabar);
     background: currentColor;
   }
 
   .type-4 {
-    color: var(--piece-color-4);
+    color: var(--color-cerulean);
     background: currentColor;
   }
 
   .type-5 {
-    color: var(--piece-color-5);
+    color: var(--color-wisteria);
     background: currentColor;
   }
 

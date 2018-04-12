@@ -1,7 +1,7 @@
 :root {
-    --piece-color-1: #13C73C;
-    --piece-color-2: #FEA029;
-    --piece-color-3: #E74C3E;
-    --piece-color-4: #22D8EE;
-    --piece-color-5: #9B57B5;
+    --color-malachite: #13C73C;
+    --color-sunshade: #FEA029;
+    --color-cinnabar: #E74C3E;
+    --color-cerulean: #03A9F4;
+    --color-wisteria: #9B57B5;
 }
