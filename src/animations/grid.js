@@ -5,9 +5,8 @@ export default ({
 })
 
 function swap({gridNode, from, to}) {
-  return new Promise((res, rej) => {
-    const fromNode = gridNode.querySelector(`[data-row='${from.row}'][data-col='${from.col}']`);
-    const toNode = gridNode.querySelector(`[data-row='${to.row}'][data-col='${to.col}']`);
+  const fromNode = gridNode.querySelector(`[data-row='${from.row}'][data-col='${from.col}']`);
+  const toNode = gridNode.querySelector(`[data-row='${to.row}'][data-col='${to.col}']`);
 
     if (fromNode && toNode) {
       const rectFrom = fromNode.getBoundingClientRect();
@@ -15,24 +14,16 @@ function swap({gridNode, from, to}) {
       const offset = ((rectTo.top - rectFrom.top) + (rectTo.left - rectFrom.left));
       const axis = from.row !== to.row ? 'Y' : 'X';
 
-      const animation = anime({
-        targets: [fromNode, toNode],
-        [`translate${axis}`]: (el, i) => i === 0 ? offset : offset * -1,
-        duration: 700
-      });
+    const animation = anime({
+      targets: [fromNode, toNode],
+      [`translate${axis}`]: (el, i) => i === 0 ? offset : offset * -1,
+      duration: 700
+    });
 
-      animation.complete = () => {
-        res();
-        [fromNode, toNode].forEach((node) => node.removeAttribute('style'));
-      }
-    } else {
-      rej()
-    }
-  })
-}
+    animation.complete = () => {
+      [fromNode, toNode].forEach((node) => node.removeAttribute('style'));
+    };
 
-function swap1({gridNode, from, to}) {
-  return swap({gridNode, from, to})
-    .then(response => ({ response }))
-    .catch(error => ({ error }))
+    return animation.finished;
+  }
 }

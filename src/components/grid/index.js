@@ -100,11 +100,13 @@ export default class Grid extends Component {
                   data-row={row}
                   data-col={col}
                   onTouchStart={(event) => {
+                    event.preventDefault();
                     this.touchstartX = event.changedTouches[0].screenX;
                     this.touchstartY = event.changedTouches[0].screenY;
                     this.setActive(event);
                   }}
                   onTouchEnd={(event) => {
+                    event.preventDefault();
                     this.touchendX = event.changedTouches[0].screenX;
                     this.touchendY = event.changedTouches[0].screenY;
                     this.handleSwipe();
