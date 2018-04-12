@@ -79,12 +79,12 @@ export default class Grid extends Component {
 
     return (
       <div
-        ref={(node) => this.grid = node}
         className={cn(
           styles.grid,
           {[styles.locked]: locked}
         )}
         onClick={this.setActive}
+        data-type="grid"
       >
         {
           data.map((i, row) => i.map((piece, col) => {
@@ -97,6 +97,7 @@ export default class Grid extends Component {
                     styles['type-' + piece.type],
                     {[styles.active]: active && active.row === row && active.col === col}
                   )}
+                  data-piece={piece.type}
                   data-row={row}
                   data-col={col}
                   onTouchStart={(event) => {
@@ -123,6 +124,7 @@ export default class Grid extends Component {
                   className={cn(
                     styles.piece
                   )}
+                  data-piece="empty"
                   data-row={row}
                   data-col={col}
                 />

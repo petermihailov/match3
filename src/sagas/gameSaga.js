@@ -99,10 +99,12 @@ function* swap({gridNode, from, to}) {
 }
 
 function* removeMatches(matches) {
-  yield put(actions.grid.removeMatches( matches));
+  yield call(animations.grid.removeMatches, matches);
+  yield put(actions.grid.removeMatches(matches));
 }
 
-function* applyGravity() {
+function* applyGravity(removedMatches) {
+  yield call(animations.grid.applyGravity, removedMatches);
   yield put(actions.grid.applyGravity());
 }
 
@@ -114,11 +116,8 @@ function* findAndRemoveMatches(matches, acc = []) {
   if (matches.length > 0) {
     acc.push(...matches);
     yield call(removeMatches, matches);
-    yield delay(DELAY);
-    yield call(applyGravity);
-    yield delay(DELAY);
+    yield call(applyGravity, matches);
     yield call(fillVoid);
-    yield delay(DELAY);
 
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
@@ -147,6 +146,7 @@ function sumRemoved(matches) {
     }
 
     acc[match.type] += match.length;
+
     return acc;
   }, {})
 }
