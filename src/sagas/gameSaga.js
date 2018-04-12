@@ -21,7 +21,7 @@ function* startGame() {
   yield put(actions.grid.createLevel());
   yield put(actions.game.setMover(Math.random() >= 0.5 ? 'left' : 'right'));
   yield put(actions.grid.lock(false));
-  yield startMove();
+  yield call(startMove);
 }
 
 function* endGame(message) {
@@ -33,7 +33,7 @@ function* endGame(message) {
 
   if (restart) {
     yield put(actions.game.resetGame());
-    yield startGame();
+    yield call(startGame);
   }
 }
 
@@ -62,7 +62,7 @@ function* move(action) {
     yield put(actions.game.setTimer(null));
     yield call(findAndRemoveMatches, matches);
     yield put(actions.game.resetMissedMoves());
-    yield endMove();
+    yield call(endMove);
   } else {
     yield call(swap, {gridNode, from: to, to: from});
     yield put(actions.grid.lock(false));
@@ -79,7 +79,7 @@ function* endMove() {
 
   const winner = yield checkWinner();
   if (winner) {
-    yield endGame(`Player ${winner.name} win! 🎉\nRestart?`);
+    yield call(endGame, `Player ${winner.name} win! 🎉\nRestart?`);
     return;
   }
 
@@ -89,8 +89,8 @@ function* endMove() {
     yield put(actions.grid.createLevel());
   }
 
-  yield switchMover();
-  yield startMove();
+  yield call(switchMover);
+  yield call(startMove);
 }
 
 function* swap({gridNode, from, to}) {
@@ -123,7 +123,7 @@ function* findAndRemoveMatches(matches, acc = []) {
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
   } else {
-    yield addPoints(sumPoints(sumRemoved(acc)));
+    yield call(addPoints, sumPoints(sumRemoved(acc)));
   }
 }
 
