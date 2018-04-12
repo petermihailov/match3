@@ -1,6 +1,6 @@
 import * as m3 from 'm3lib';
 import actions, {types} from '../actions'
-import animations from './../animations/grid'
+import animations from './../animations'
 import {put, call, takeEvery, takeLatest, select} from 'redux-saga/effects'
 import {delay} from 'redux-saga'
 import {getGame} from './selectors'
@@ -94,7 +94,7 @@ function* endMove() {
 }
 
 function* swap({gridNode, from, to}) {
-  yield call(animations.swap, {gridNode, from, to});
+  yield call(animations.grid.swap, {gridNode, from, to});
   yield put(actions.grid.swap({from, to}));
 }
 
@@ -129,7 +129,8 @@ function* findAndRemoveMatches(matches, acc = []) {
 
 function* addPoints(points) {
   const {mover, players} = yield select(getGame);
-  const score = players[mover].score + points;
+  const oldScore = players[mover].score;
+  const score = oldScore + points;
 
   yield put(actions.game.setScore({mover, score}));
 }

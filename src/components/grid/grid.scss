@@ -2,9 +2,9 @@
   position: relative;
   display: grid;
   grid-template: repeat(6, 1fr) / repeat(6, 1fr);
-  grid-gap: 10px;
-  width: 300px;
-  height: 300px;
+  grid-gap: 5px;
+  width: 320px;
+  height: 320px;
   touch-action: none;
   background: hsl(0, 0%, 25%);
   border: 10px solid hsl(0, 0%, 25%);
@@ -23,27 +23,27 @@
   }
 
   .type-1 {
-    color: #E74C3E;
+    color: var(--piece-color-1);
     background: currentColor;
   }
 
   .type-2 {
-    color: #13C73C;
+    color: var(--piece-color-2);
     background: currentColor;
   }
 
   .type-3 {
-    color: #22D8EE;
+    color: var(--piece-color-3);
     background: currentColor;
   }
 
   .type-4 {
-    color: #FEA029;
+    color: var(--piece-color-4);
     background: currentColor;
   }
 
   .type-5 {
-    color: #9B57B5;
+    color: var(--piece-color-5);
     background: currentColor;
   }
 

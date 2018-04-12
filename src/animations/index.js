@@ -1,7 +1,7 @@
 import grid from './grid';
-import statusBar from './status-bar';
+import game from './game';
 
 export default ({
   grid,
-  statusBar
+  game
 });
