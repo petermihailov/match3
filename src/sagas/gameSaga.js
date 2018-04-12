@@ -7,7 +7,7 @@ import {getGame} from './selectors'
 
 const DELAY = 200;
 const MOVE_TIME = 30000;
-const SCORE_TO_WIN = 10000;
+const SCORE_TO_WIN = 15000;
 const MISSED_MOVES_TO_LOOSE = 2;
 
 export default function* gameSaga() {
@@ -79,7 +79,7 @@ function* endMove() {
 
   const winner = yield checkWinner();
   if (winner) {
-    yield call(endGame, `Player ${winner.name} win! 🎉\nRestart?`);
+    yield call(endGame, `Player ${winner.name} win!\nRestart?`);
     return;
   }
 
@@ -114,10 +114,16 @@ function* fillVoid() {
 
 function* findAndRemoveMatches(matches, acc = []) {
   if (matches.length > 0) {
+    if (matches.find((m) => m.length > 4)) {
+      alert('Additional move!');
+      yield put(actions.game.setAdditionalMove());
+    }
+
     acc.push(...matches);
     yield call(removeMatches, matches);
     yield call(applyGravity, matches);
     yield call(fillVoid);
+    yield delay(DELAY);
 
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
@@ -135,8 +141,13 @@ function* addPoints(points) {
 }
 
 function* switchMover() {
-  const {mover} = yield select(getGame);
-  yield put(actions.game.setMover(mover === 'left' ? 'right' : 'left'));
+  const {mover, players} = yield select(getGame);
+
+  if (players[mover].additionalMove) {
+    yield put(actions.game.resetAdditionalMove());
+  } else {
+    yield put(actions.game.setMover(mover === 'left' ? 'right' : 'left'));
+  }
 }
 
 function sumRemoved(matches) {

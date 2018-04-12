@@ -75,16 +75,26 @@ export default class Grid extends Component {
 
   render() {
     const {active} = this.state;
-    const {data, locked} = this.props;
+    const {data} = this.props;
 
     return (
       <div
-        className={cn(
-          styles.grid,
-          {[styles.locked]: locked}
-        )}
-        onClick={this.setActive}
         data-type="grid"
+        className={styles.grid}
+        onClick={this.setActive}
+        onTouchStart={(event) => {
+          event.preventDefault();
+          this.touchstartX = event.changedTouches[0].screenX;
+          this.touchstartY = event.changedTouches[0].screenY;
+          this.setActive(event);
+        }}
+        onTouchEnd={(event) => {
+          event.preventDefault();
+          this.touchendX = event.changedTouches[0].screenX;
+          this.touchendY = event.changedTouches[0].screenY;
+          this.handleSwipe();
+          this.resetActive();
+        }}
       >
         {
           data.map((i, row) => i.map((piece, col) => {
@@ -100,19 +110,6 @@ export default class Grid extends Component {
                   data-piece={piece.type}
                   data-row={row}
                   data-col={col}
-                  onTouchStart={(event) => {
-                    event.preventDefault();
-                    this.touchstartX = event.changedTouches[0].screenX;
-                    this.touchstartY = event.changedTouches[0].screenY;
-                    this.setActive(event);
-                  }}
-                  onTouchEnd={(event) => {
-                    event.preventDefault();
-                    this.touchendX = event.changedTouches[0].screenX;
-                    this.touchendY = event.changedTouches[0].screenY;
-                    this.handleSwipe();
-                    this.resetActive();
-                  }}
                 >
                   <span className={styles.score}>{piece.type * 100}</span>
                 </div>

@@ -8,6 +8,8 @@ export const types = {
   SET_TIMER: 'SET_TIMER',
   MISS_MOVE: 'MISS_MOVE',
   RESET_MISSED_MOVES: 'RESET_MISSED_MOVES',
+  SET_ADDITIONAL_MOVE: 'SET_ADDITIONAL_MOVE',
+  RESET_ADDITIONAL_MOVE: 'RESET_ADDITIONAL_MOVE',
 };
 
 const actions = ({
@@ -18,6 +20,8 @@ const actions = ({
   setTimer: makeAction(types.SET_TIMER),
   missMove: makeAction(types.MISS_MOVE),
   resetMissedMoves: makeAction(types.RESET_MISSED_MOVES),
+  setAdditionalMove: makeAction(types.SET_ADDITIONAL_MOVE),
+  resetAdditionalMove: makeAction(types.RESET_ADDITIONAL_MOVE),
 });
 
 export default actions;

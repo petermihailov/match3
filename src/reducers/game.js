@@ -13,12 +13,14 @@ const initialState = {
     left: {
       name: '🎃',
       score: 0,
-      missedMoves: 0
+      missedMoves: 0,
+      additionalMove: false
     },
     right: {
       name: '🥕',
       score: 0,
-      missedMoves: 0
+      missedMoves: 0,
+      additionalMove: false
     }
   }
 };
@@ -85,15 +87,29 @@ export default function reduce(state = initialState, action = {}) {
       });
 
     case types.game.MISS_MOVE:
-      return ({
-        ...state,
-        players: missMove(state)
-      });
+    return ({
+      ...state,
+      players: missMove(state)
+    });
 
     case types.game.RESET_MISSED_MOVES:
       return ({
         ...state,
         players: resetMissedMoves(state)
+      });
+    case types.game.SET_ADDITIONAL_MOVE:
+      return ({
+        ...state,
+        players: setAdditionalMove(state)
+      });
+
+    case types.game.RESET_ADDITIONAL_MOVE:
+      return ({
+        ...state,
+        players: {
+          left: {...state.players.left, additionalMove: false},
+          right: {...state.players.right, additionalMove: false}
+        }
       });
 
     default:
@@ -130,6 +146,17 @@ function resetMissedMoves(state) {
   };
 
   players[state.mover].missedMoves = 0;
+
+  return players
+}
+
+function setAdditionalMove(state) {
+  const players = {
+    left: {...state.players.left},
+    right: {...state.players.right}
+  };
+
+  players[state.mover].additionalMove = true;
 
   return players
 }
