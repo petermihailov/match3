@@ -20,9 +20,14 @@ const stubLevel = [
 ];
 
 export default function* gameSaga() {
-  yield takeLatest(types.game.START_GAME, startGame);
+  yield takeLatest(types.game.START_GAME, startGameWithPlayer);
   yield takeEvery(types.grid.MOVE, move);
   yield takeEvery(types.game.MISS_MOVE, endMove);
+}
+
+export function* startGameWithPlayer() {
+  yield put(actions.game.setGameWithBot(false));
+  yield call(startGame);
 }
 
 export function* startGame() {

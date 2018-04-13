@@ -87,10 +87,10 @@ export default function reduce(state = initialState, action = {}) {
         return initialState;
       }
 
-    case types.game.INIT_GAME_WITH_BOT:
+    case types.game.SET_GAME_WITH_BOT:
       return ({
         ...state,
-        withBot: true
+        withBot: action.payload
       });
 
     case types.game.SET_MOVER:

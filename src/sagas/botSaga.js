@@ -13,7 +13,7 @@ export default function* gameWithBotSaga() {
 }
 
 function* startGameWithBot() {
-  yield put(actions.game.initGameWithBot());
+  yield put(actions.game.setGameWithBot(true));
   yield call(startGame);
 }
 
