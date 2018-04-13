@@ -72,8 +72,8 @@ export default function reduce(state = initialState, action = {}) {
           ...initialState,
           withBot: true,
           players: {
-            left: {...state.players.left, name: '🤓'},
-            right: {...state.players.left, name: '🤖'}
+            left: {...state.players.left, name: '🤓', score: 0},
+            right: {...state.players.left, name: '🤖', score: 0}
           }
         })
       } else {
