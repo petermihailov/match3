@@ -4,6 +4,7 @@ export default ({
   swap,
   removeMatches,
   applyGravity,
+  fillVoid
 })
 
 const SIZE = 50.828125;
@@ -106,45 +107,30 @@ function applyGravity(grid) {
 
     return animation.finished;
   }
+}
 
+function fillVoid(changes) {
+  const gridNode = document.querySelector('[data-type="grid"]');
 
-  // const animationObjects = removedMatches.reduce((acc, {row, col, length, horizontal}) => {
-  //   if (horizontal) {
-  //     for (let i = 0; i < length; i++) {
-  //       for (let j = row; j !== 0; j--) {
-  //         acc.push({
-  //           targets: gridNode.querySelector(`[data-row='${j - 1}'][data-col='${col + i}']`),
-  //           offset: 0,
-  //           duration: 400,
-  //           elasticity: 100,
-  //           translateY: SIZE
-  //         });
-  //       }
-  //     }
-  //   } else {
-  //     for (let j = row; j !== 0; j--) {
-  //       acc.push({
-  //         targets: gridNode.querySelector(`[data-row='${j - 1}'][data-col='${col}']`),
-  //         offset: 0,
-  //         duration: 400,
-  //         elasticity: 100,
-  //         translateY: SIZE * length
-  //       });
-  //     }
-  //   }
-  //
-  //   return acc;
-  // }, []);
-  //
-  // if (animationObjects.length > 0) {
-  //   const animation = anime.timeline();
-  //
-  //   animationObjects.forEach((obj) => animation.add(obj));
-  //
-  //   animation.complete = () => {
-  //     animationObjects.forEach((obj) => obj.targets.removeAttribute('style'));
-  //   };
-  //
-  //   return animation.finished;
-  // }
+  const animation = anime.timeline();
+
+  const animationChanges = changes.map((obj) => {
+    const node = gridNode.querySelector(`[data-row='${obj.row}'][data-col='${obj.col}']`);
+
+    return ({
+      targets: node,
+      scale: [0, 1],
+      offset: 0,
+      duration: 250,
+      elasticity: 100
+    })
+  });
+
+  animationChanges.forEach((obj) => animation.add(obj));
+
+  animation.complete = () => {
+    animationChanges.forEach((obj) => obj.targets.removeAttribute('style'));
+  };
+
+  return animation.finished;
 }

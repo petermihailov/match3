@@ -64,7 +64,7 @@ export default function reduce(state = initialState, action = {}) {
     case types.grid.FILL_VOID:
       return ({
         ...state,
-        grid: m3.fillVoid(state.grid, state.types)
+        grid: fillVoid(state, action.payload)
       });
     case types.grid.SET_GRID:
       return ({
@@ -184,4 +184,13 @@ function setAdditionalMove(state) {
   players[state.mover].additionalMove = true;
 
   return players
+}
+
+function fillVoid(state, changes) {
+  const {grid} = state;
+  const copyGrid = grid.map((row) => [...row]);
+
+  changes.forEach((obj) => copyGrid[obj.row][obj.col] = obj.piece);
+
+  return copyGrid;
 }

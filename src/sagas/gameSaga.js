@@ -131,7 +131,19 @@ function* applyGravity() {
 }
 
 function* fillVoid() {
-  yield put(actions.grid.fillVoid());
+  const {grid, types} = yield select(getGame);
+  const changes = [];
+
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      if (grid[row][col] === null) {
+        changes.push({row, col, piece: {type: Math.floor(Math.random() * types) + 1}});
+      }
+    }
+  }
+
+  yield put(actions.grid.fillVoid(changes));
+  yield call(animations.grid.fillVoid, changes);
 }
 
 function* findAndRemoveMatches(matches, acc = []) {
