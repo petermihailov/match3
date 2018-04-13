@@ -39,6 +39,9 @@ const scss = {
 module.exports = (env, argv) => {
   return ({
     entry: ['babel-polyfill', './src/main.js', './src/assets/reset.css', './src/assets/colors.css', './src/assets/main.css'],
+    output: {
+      path: __dirname + '/docs'
+    },
     module: {
       rules: [
         {
