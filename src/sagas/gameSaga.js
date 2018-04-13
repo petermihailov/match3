@@ -11,12 +11,12 @@ const SCORE_TO_WIN = 15000;
 const MISSED_MOVES_TO_LOOSE = 2;
 
 export default function* gameSaga() {
-  yield takeEvery(types.grid.MOVE, move);
   yield takeLatest(types.game.START_GAME, startGame);
+  yield takeEvery(types.grid.MOVE, move);
   yield takeEvery(types.game.MISS_MOVE, endMove);
 }
 
-function* startGame() {
+export function* startGame() {
   yield put(actions.game.resetGame());
   yield put(actions.grid.createLevel());
   yield put(actions.game.setMover(Math.random() >= 0.5 ? 'left' : 'right'));
@@ -51,9 +51,9 @@ function* checkWinner() {
 
 function* move(action) {
   yield put(actions.grid.lock(true));
-  const {gridNode, from, to} = action.payload;
+  const {from, to} = action.payload;
 
-  yield call(swap, {gridNode, from, to});
+  yield call(swap, {from, to});
 
   const {grid} = yield select(getGame);
   const matches = m3.getMatches(grid);
@@ -64,14 +64,20 @@ function* move(action) {
     yield put(actions.game.resetMissedMoves());
     yield call(endMove);
   } else {
-    yield call(swap, {gridNode, from: to, to: from});
+    yield call(swap, {from: to, to: from});
     yield put(actions.grid.lock(false));
   }
 }
 
 function* startMove() {
+  const {withBot, mover} = yield select(getGame);
+
   yield put(actions.game.setTimer(new Date().getTime() + MOVE_TIME));
-  yield put(actions.grid.lock(false));
+  if (withBot && mover === "right") {
+    yield put(actions.game.botStartMove());
+  } else {
+    yield put(actions.grid.lock(false));
+  }
 }
 
 function* endMove() {
@@ -93,8 +99,8 @@ function* endMove() {
   yield call(startMove);
 }
 
-function* swap({gridNode, from, to}) {
-  yield call(animations.grid.swap, {gridNode, from, to});
+function* swap({from, to}) {
+  yield call(animations.grid.swap, {from, to});
   yield put(actions.grid.swap({from, to}));
 }
 
@@ -150,7 +156,7 @@ function* switchMover() {
   }
 }
 
-function sumRemoved(matches) {
+export function sumRemoved(matches) {
   return matches.reduce((acc, match) => {
     if (!acc.hasOwnProperty(match.type)) {
       acc[match.type] = 0;
@@ -162,6 +168,6 @@ function sumRemoved(matches) {
   }, {})
 }
 
-function sumPoints(removed) {
+export function sumPoints(removed) {
   return Object.keys(removed).reduce((acc, type) => acc += type * 100 * removed[type], 0);
 }

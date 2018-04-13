@@ -10,13 +10,14 @@ import {
 
 class Game extends Component {
   render() {
-    const {grid, players, moveExpireAt, mover, locked, onMove, onGameStart, onMissMove} = this.props;
+    const {grid, players, moveExpireAt, mover, locked, onMove, startGame, startGameWithBot, onMissMove} = this.props;
 
     return (
       <div className={styles.game}>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked}/>
-        <button onClick={onGameStart}>Start</button>
+        <button onClick={startGame}>Start Game</button>
+        <button onClick={startGameWithBot}>Start Game with BOT</button>
       </div>
     );
   }
@@ -28,7 +29,8 @@ export default connect(
   }),
   (dispatch) => ({
     onMove: (options) => dispatch(actions.grid.move(options)),
-    onGameStart: () => dispatch(actions.game.startGame()),
     onMissMove: () => dispatch(actions.game.missMove()),
+    startGame: () => dispatch(actions.game.startGame()),
+    startGameWithBot: () => dispatch(actions.game.startGameWithBot()),
   }),
 )(Game);

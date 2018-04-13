@@ -2,6 +2,9 @@ import {makeAction} from './../utils'
 
 export const types = {
   START_GAME: 'START_GAME',
+  INIT_GAME_WITH_BOT: 'INIT_GAME_WITH_BOT',
+  START_GAME_WITH_BOT: 'START_GAME_WITH_BOT',
+  BOT_START_MOVE: 'BOT_START_MOVE',
   RESET_GAME: 'RESET_GAME',
   SET_MOVER: 'SET_MOVER',
   SET_SCORE: 'SET_SCORE',
@@ -14,6 +17,9 @@ export const types = {
 
 const actions = ({
   startGame: makeAction(types.START_GAME),
+  initGameWithBot: makeAction(types.INIT_GAME_WITH_BOT),
+  startGameWithBot: makeAction(types.START_GAME_WITH_BOT),
+  botStartMove: makeAction(types.BOT_START_MOVE),
   resetGame: makeAction(types.RESET_GAME),
   setMover: makeAction(types.SET_MOVER),
   setScore: makeAction(types.SET_SCORE),

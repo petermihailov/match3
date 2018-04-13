@@ -9,6 +9,7 @@ const initialState = {
   locked: true,
   mover: null,
   moveExpireAt: null,
+  withBot: false,
   players: {
     left: {
       name: '🎃',
@@ -66,7 +67,24 @@ export default function reduce(state = initialState, action = {}) {
 
     // game reducers
     case types.game.RESET_GAME:
-      return (initialState);
+      if (state.withBot) {
+        return ({
+          ...initialState,
+          withBot: true,
+          players: {
+            left: {...state.players.left, name: '🤓'},
+            right: {...state.players.left, name: '🤖'}
+          }
+        })
+      } else {
+        return initialState;
+      }
+
+    case types.game.INIT_GAME_WITH_BOT:
+      return ({
+        ...state,
+        withBot: true
+      });
 
     case types.game.SET_MOVER:
       return ({
@@ -87,10 +105,10 @@ export default function reduce(state = initialState, action = {}) {
       });
 
     case types.game.MISS_MOVE:
-    return ({
-      ...state,
-      players: missMove(state)
-    });
+      return ({
+        ...state,
+        players: missMove(state)
+      });
 
     case types.game.RESET_MISSED_MOVES:
       return ({
