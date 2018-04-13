@@ -10,6 +10,15 @@ const MOVE_TIME = 30000;
 const SCORE_TO_WIN = 15000;
 const MISSED_MOVES_TO_LOOSE = 2;
 
+const stubLevel = [
+  [{type: 3}, {type: 1}, {type: 2}, {type: 4}, {type: 5}, {type: 4}],
+  [{type: 1}, {type: 1}, {type: 1}, {type: 1}, {type: 5}, {type: 4}],
+  [{type: 2}, {type: 2}, {type: 2}, {type: 2}, {type: 1}, {type: 1}],
+  [{type: 3}, {type: 2}, {type: 1}, {type: 3}, {type: 1}, {type: 1}],
+  [{type: 4}, {type: 4}, {type: 4}, {type: 4}, {type: 1}, {type: 1}],
+  [{type: 5}, {type: 5}, {type: 5}, {type: 5}, {type: 1}, {type: 1}]
+];
+
 export default function* gameSaga() {
   yield takeLatest(types.game.START_GAME, startGame);
   yield takeEvery(types.grid.MOVE, move);
@@ -109,8 +118,10 @@ function* removeMatches(matches) {
   yield put(actions.grid.removeMatches(matches));
 }
 
-function* applyGravity(removedMatches) {
-  yield call(animations.grid.applyGravity, removedMatches);
+function* applyGravity() {
+  const {grid} = yield select(getGame);
+
+  yield call(animations.grid.applyGravity, grid);
   yield put(actions.grid.applyGravity());
 }
 
@@ -126,8 +137,9 @@ function* findAndRemoveMatches(matches, acc = []) {
     }
 
     acc.push(...matches);
+
     yield call(removeMatches, matches);
-    yield call(applyGravity, matches);
+    yield call(applyGravity);
     yield call(fillVoid);
     yield delay(DELAY);
 

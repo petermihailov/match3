@@ -35,10 +35,17 @@ export default function reduce(state = initialState, action = {}) {
         locked: action.payload
       });
     case types.grid.CREATE_LEVEL:
-      return ({
-        ...state,
-        grid: m3.createLevel({cols: state.cols, rows: state.rows, types: state.types})
-      });
+      if (action.payload) {
+        return ({
+          ...state,
+          grid: action.payload
+        })
+      } else {
+        return ({
+          ...state,
+          grid: m3.createLevel({cols: state.cols, rows: state.rows, types: state.types})
+        });
+      }
     case types.grid.SWAP:
       return ({
         ...state,

@@ -65,46 +65,86 @@ function removeMatches(matches) {
   return animation.finished;
 }
 
-function applyGravity(removedMatches) {
+function applyGravity(grid) {
   const gridNode = document.querySelector('[data-type="grid"]');
+  const changes = [];
 
-  const animationObjects = removedMatches.reduce((acc, {row, col, length, horizontal}) => {
-    if (horizontal) {
-      for (let i = 0; i < length; i++) {
-        for (let j = row; j !== 0; j--) {
-          acc.push({
-            targets: gridNode.querySelector(`[data-row='${j - 1}'][data-col='${col + i}']`),
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[row].length; col++) {
+      const piece = grid[row][col];
+
+      if (piece) {
+        let shiftDown = 0;
+
+        for (let i = 1; i < grid.length - row; i++) {
+          if (grid[row + i][col] === null) {
+            shiftDown++;
+          }
+        }
+
+        if (shiftDown) {
+          changes.push({
+            targets: gridNode.querySelector(`[data-row='${row}'][data-col='${col}']`),
+            translateY: SIZE * shiftDown,
             offset: 0,
             duration: 400,
-            elasticity: 100,
-            translateY: SIZE
+            elasticity: 100
           });
         }
       }
-    } else {
-      for (let j = row; j !== 0; j--) {
-        acc.push({
-          targets: gridNode.querySelector(`[data-row='${j - 1}'][data-col='${col}']`),
-          offset: 0,
-          duration: 400,
-          elasticity: 100,
-          translateY: SIZE * length
-        });
-      }
     }
+  }
 
-    return acc;
-  }, []);
-
-  if (animationObjects.length > 0) {
+  if (changes.length) {
     const animation = anime.timeline();
 
-    animationObjects.forEach((obj) => animation.add(obj));
+    changes.forEach((obj) => animation.add(obj));
 
     animation.complete = () => {
-      animationObjects.forEach((obj) => obj.targets.removeAttribute('style'));
+      changes.forEach((obj) => obj.targets.removeAttribute('style'));
     };
 
     return animation.finished;
   }
+
+
+  // const animationObjects = removedMatches.reduce((acc, {row, col, length, horizontal}) => {
+  //   if (horizontal) {
+  //     for (let i = 0; i < length; i++) {
+  //       for (let j = row; j !== 0; j--) {
+  //         acc.push({
+  //           targets: gridNode.querySelector(`[data-row='${j - 1}'][data-col='${col + i}']`),
+  //           offset: 0,
+  //           duration: 400,
+  //           elasticity: 100,
+  //           translateY: SIZE
+  //         });
+  //       }
+  //     }
+  //   } else {
+  //     for (let j = row; j !== 0; j--) {
+  //       acc.push({
+  //         targets: gridNode.querySelector(`[data-row='${j - 1}'][data-col='${col}']`),
+  //         offset: 0,
+  //         duration: 400,
+  //         elasticity: 100,
+  //         translateY: SIZE * length
+  //       });
+  //     }
+  //   }
+  //
+  //   return acc;
+  // }, []);
+  //
+  // if (animationObjects.length > 0) {
+  //   const animation = anime.timeline();
+  //
+  //   animationObjects.forEach((obj) => animation.add(obj));
+  //
+  //   animation.complete = () => {
+  //     animationObjects.forEach((obj) => obj.targets.removeAttribute('style'));
+  //   };
+  //
+  //   return animation.finished;
+  // }
 }
