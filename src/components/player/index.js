@@ -6,11 +6,11 @@ import styles from './player.scss';
 export default class Player extends Component {
   componentWillReceiveProps({score}) {
     if (score !== this.props.score) {
-      animations.game.updateScore({
-        pointsNode: this.scoreNode,
-        oldScore: this.props.score,
-        newScore: score
-      })
+      if (score === 0) {
+        this.scoreNode.innerText = '0';
+      } else {
+        animations.game.updateScore(this.scoreNode, this.props.score, score);
+      }
     }
   }
 
