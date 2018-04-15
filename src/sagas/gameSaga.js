@@ -60,20 +60,26 @@ function* checkWinner() {
 
 function* move(action) {
   yield put(actions.grid.lock(true));
+
+  const {rows, cols} = yield select(getGame);
   const {from, to} = action.payload;
 
-  yield call(swap, {from, to});
+  if (to.row < rows && to.col < cols) {
+    yield call(swap, {from, to});
 
-  const {grid} = yield select(getGame);
-  const matches = m3.getMatches(grid);
+    const {grid} = yield select(getGame);
+    const matches = m3.getMatches(grid);
 
-  if (matches.length > 0) {
-    yield put(actions.game.setTimer(null));
-    yield call(findAndRemoveMatches, matches);
-    yield put(actions.game.resetMissedMoves());
-    yield call(endMove);
+    if (matches.length > 0) {
+      yield put(actions.game.setTimer(null));
+      yield call(findAndRemoveMatches, matches);
+      yield put(actions.game.resetMissedMoves());
+      yield call(endMove);
+    } else {
+      yield call(swap, {from: to, to: from});
+      yield put(actions.grid.lock(false));
+    }
   } else {
-    yield call(swap, {from: to, to: from});
     yield put(actions.grid.lock(false));
   }
 }
