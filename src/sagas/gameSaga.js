@@ -2,6 +2,7 @@ import * as m3 from 'm3lib';
 import actions, {types} from '../actions'
 import animations from './../animations'
 import {put, call, takeEvery, takeLatest, select} from 'redux-saga/effects'
+import {NotificationManager} from './../components/notifications';
 import {delay} from 'redux-saga'
 import {getGame} from './selectors'
 
@@ -42,13 +43,7 @@ function* endGame(message) {
   yield put(actions.grid.lock(true));
   yield put(actions.game.setMover(null));
   yield put(actions.game.setTimer(null));
-
-  const restart = confirm(message);
-
-  if (restart) {
-    yield put(actions.game.resetGame());
-    yield call(startGame);
-  }
+  NotificationManager.info(message, '🎉 Победа! 🎉', 5000);
 }
 
 function* checkWinner() {
@@ -99,13 +94,13 @@ function* endMove() {
 
   const winner = yield checkWinner();
   if (winner) {
-    yield call(endGame, `Player ${winner.name} win!\nRestart?`);
+    yield call(endGame, `Игрок ${winner.name} победил!`);
     return;
   }
 
   const {grid} = yield select(getGame);
   if (m3.getMoves(grid).length === 0) {
-    alert('not moves, regenerating field');
+    NotificationManager.info('Нет ходов');
     yield put(actions.grid.createLevel());
   }
 
@@ -149,7 +144,7 @@ function* fillVoid() {
 function* findAndRemoveMatches(matches, acc = []) {
   if (matches.length > 0) {
     if (matches.find((m) => m.length > 4)) {
-      alert('Additional move!');
+      NotificationManager.info('Дополнительный ход!', '5 в ряд!');
       yield put(actions.game.setAdditionalMove());
     }
 

@@ -5,7 +5,7 @@ import styles from './game.scss';
 
 import {
   Grid,
-  StatusBar
+  StatusBar,
 } from './../../components'
 
 class Game extends Component {

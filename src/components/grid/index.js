@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import cn from 'classnames';
 import * as m3 from 'm3lib';
 import styles from './grid.scss';
+import {NotificationContainer} from '../notifications';
 
 export default class Grid extends Component {
   touchstartX = 0;
@@ -129,6 +130,7 @@ export default class Grid extends Component {
             }
           }))
         }
+        <NotificationContainer/>
       </div>
     );
   }
