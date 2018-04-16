@@ -18,9 +18,6 @@ class Game extends Component {
         <Grid data={grid} onMove={onMove} locked={locked}/>
         <button onClick={startGame}>Start Game</button>
         <button onClick={startGameWithBot}>Start Game with BOT</button>
-        <button onClick={() => {
-          console.log(screen.orientation.type);
-        }}>lock screen</button>
       </div>
     );
   }

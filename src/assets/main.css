@@ -9,6 +9,7 @@ button {
     text-transform: uppercase;
     padding: .5em;
     border: 1px solid currentColor;
+    outline: none;
 }
 
 button:active {
