@@ -2,7 +2,8 @@ import * as m3 from 'm3lib';
 import actions, {types} from '../actions'
 import {put, call, takeEvery, takeLatest, select} from 'redux-saga/effects'
 import {delay} from 'redux-saga'
-import {startGame, sumRemoved, sumPoints} from './gameSaga'
+import {startGame} from './gameSaga'
+import {sumRemoved, sumPoints} from './moveSaga'
 import {getGame} from './selectors'
 
 const DELAY = 1000;

@@ -7,9 +7,10 @@ button {
     background: none;
     color: var(--color-cerulean);
     text-transform: uppercase;
-    padding: .5em;
+    padding: 1em;
     border: 1px solid currentColor;
     outline: none;
+    user-select: none;
 }
 
 button:active {

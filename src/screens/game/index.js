@@ -6,19 +6,18 @@ import styles from './game.scss';
 import {
   Grid,
   StatusBar,
+  Container
 } from './../../components'
 
 class Game extends Component {
   render() {
-    const {grid, players, moveExpireAt, mover, locked, onMove, startGame, startGameWithBot, onMissMove} = this.props;
+    const {grid, players, moveExpireAt, mover, locked, onMove, onMissMove} = this.props;
 
     return (
-      <div className={styles.game}>
+      <Container className={styles.game}>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked}/>
-        <button onClick={startGame}>Start Game</button>
-        <button onClick={startGameWithBot}>Start Game with BOT</button>
-      </div>
+      </Container>
     );
   }
 }
@@ -30,7 +29,5 @@ export default connect(
   (dispatch) => ({
     onMove: (options) => dispatch(actions.grid.move(options)),
     onMissMove: () => dispatch(actions.game.missMove()),
-    startGame: () => dispatch(actions.game.startGame()),
-    startGameWithBot: () => dispatch(actions.game.startGameWithBot()),
   }),
 )(Game);

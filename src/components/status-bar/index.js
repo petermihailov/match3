@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import cn from 'classnames';
 import styles from './status-bar.scss';
 
@@ -7,18 +7,14 @@ import {
   Timer
 } from './../';
 
-export default class StatusBar extends Component {
-  render() {
-    const {players, moveExpireAt, mover, onMissMove} = this.props;
+const StatusBar = ({players, moveExpireAt, mover, onMissMove}) => (
+  <div className={cn(
+    styles['status-bar']
+  )}>
+    <Player {...players.left}/>
+    <Timer moveExpireAt={moveExpireAt} arrowPosition={mover} onMissMove={onMissMove}/>
+    <Player {...players.right} right/>
+  </div>
+);
 
-    return (
-      <div className={cn(
-        styles['status-bar']
-      )}>
-        <Player {...players.left}/>
-        <Timer moveExpireAt={moveExpireAt} arrowPosition={mover} onMissMove={onMissMove}/>
-        <Player {...players.right} right/>
-      </div>
-    );
-  }
-}
+export default StatusBar;

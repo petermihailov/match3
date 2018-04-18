@@ -9,29 +9,32 @@ export default class Timer extends Component {
 
   timer = null;
 
+  componentDidMount() {
+    const {moveExpireAt} = this.props;
+    this.setTimer(moveExpireAt);
+  }
+
   componentWillReceiveProps({moveExpireAt}) {
     this.clearTimer();
-
-    if (moveExpireAt) {
-      this.setState(
-        {seconds: Math.round((moveExpireAt - new Date().getTime()) / 1000)},
-        () => {
-          this.timer = setInterval(this.updateCounter, 1000)
-        }
-      );
-    }
+    this.setTimer(moveExpireAt)
   }
 
   componentWillUnmount() {
     this.clearTimer();
   }
 
+  setTimer = (until) => {
+    if (until) {
+      this.timer = setInterval(this.updateCounter, 1000)
+    }
+  };
+
   updateCounter = () => {
     if (this.state.seconds === 1) {
       this.clearTimer();
       this.props.onMissMove();
     } else {
-      this.setState({seconds: this.state.seconds - 1});
+      this.setState({seconds: Math.round((this.props.moveExpireAt - new Date().getTime()) / 1000)});
     }
   };
 
@@ -56,11 +59,7 @@ export default class Timer extends Component {
           {[styles.active]: arrowPosition === 'right'}
         )}/>
         <span className={cn({[styles.warning]: this.state.seconds <= 5})}>
-          {
-            this.state.seconds > 0 && arrowPosition
-              ? this.state.seconds.toString().padStart(2, "0")
-              : null
-          }
+          {(this.state.seconds).toString().padStart(2, "0")}
         </span>
       </div>
     );
