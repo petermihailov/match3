@@ -2,7 +2,7 @@ import * as m3 from 'm3lib';
 import {push} from 'react-router-redux';
 import {delay} from 'redux-saga'
 import actions, {types} from '../actions'
-import {put, call, takeEvery, takeLatest, select} from 'redux-saga/effects'
+import {put, call, takeLatest, select} from 'redux-saga/effects'
 import {NotificationManager} from './../components/notifications';
 import {getGame} from './selectors'
 
