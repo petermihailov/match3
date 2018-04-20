@@ -4,7 +4,7 @@ import styles from './timer.scss';
 
 export default class Timer extends Component {
   state = {
-    seconds: 0
+    seconds: 30
   };
 
   timer = null;
@@ -15,8 +15,10 @@ export default class Timer extends Component {
   }
 
   componentWillReceiveProps({moveExpireAt}) {
-    this.clearTimer();
-    this.setTimer(moveExpireAt)
+    if (this.props.moveExpireAt !== moveExpireAt) {
+      this.clearTimer();
+      this.setTimer(moveExpireAt);
+    }
   }
 
   componentWillUnmount() {
@@ -25,16 +27,17 @@ export default class Timer extends Component {
 
   setTimer = (until) => {
     if (until) {
-      this.timer = setInterval(this.updateCounter, 1000)
+      this.timer = setInterval(() => this.updateCounter(until), 1000)
     }
   };
 
-  updateCounter = () => {
-    if (this.state.seconds === 1) {
+  updateCounter = (until) => {
+    const seconds = Math.ceil((until - Date.now()) / 1000);
+    this.setState({seconds});
+
+    if (seconds === 0) {
       this.clearTimer();
       this.props.onMissMove();
-    } else {
-      this.setState({seconds: Math.round((this.props.moveExpireAt - new Date().getTime()) / 1000)});
     }
   };
 
@@ -45,6 +48,7 @@ export default class Timer extends Component {
 
   render() {
     const {arrowPosition} = this.props;
+    const {seconds} = this.state;
 
     return (
       <div className={cn(
@@ -59,7 +63,9 @@ export default class Timer extends Component {
           {[styles.active]: arrowPosition === 'right'}
         )}/>
         <span className={cn({[styles.warning]: this.state.seconds <= 5})}>
-          {(this.state.seconds).toString().padStart(2, "0")}
+          {
+            (seconds).toString().padStart(2, "0")
+          }
         </span>
       </div>
     );

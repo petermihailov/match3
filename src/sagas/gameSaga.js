@@ -44,11 +44,14 @@ function* startMove() {
   } else {
     yield put(actions.grid.lock(false));
   }
+
+  yield put(actions.game.setTimer(Date.now() + MOVE_TIME));
 }
 
 export function* endMove(points) {
-  if (points) yield call(addPoints, points);
+  if (typeof points === 'number') yield call(addPoints, points);
 
+  yield put(actions.game.setTimer(null));
   yield call(checkPossibleMoves);
   yield call(switchMover);
 }

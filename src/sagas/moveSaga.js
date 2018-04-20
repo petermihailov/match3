@@ -27,6 +27,7 @@ function* move(action) {
     const matches = m3.getMatches(grid);
 
     if (matches.length > 0) {
+      yield put(actions.game.setTimer(null));
       yield put(actions.game.resetMissedMoves());
       yield call(findAndRemoveMatches, matches);
     } else {
