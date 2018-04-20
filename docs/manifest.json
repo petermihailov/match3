@@ -2,7 +2,7 @@
   "lang": "en",
   "name": "Match-3 Game",
   "short_name": "Match 3",
-  "description": "Collect 15000 points to win!",
+  "description": "Collect 20000 points to win!",
   "start_url" : "index.html",
   "display" : "fullscreen",
   "orientation" : "portrait",

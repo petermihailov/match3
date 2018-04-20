@@ -52,7 +52,7 @@ export function* endMove(points) {
   if (typeof points === 'number') {
     yield call(addPoints, points);
 
-    if (points > 999)
+    if (points > 9999)
     NotificationManager.info('10 000+ за ход!', 'Во дела!', 1800);
   }
 
