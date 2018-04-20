@@ -12,6 +12,7 @@ const MISSED_MOVES_TO_LOOSE = 2;
 
 export default function* gameSaga() {
   yield takeLatest(types.game.START_GAME, startGameWithPlayer);
+  yield takeLatest(types.game.RESTART_GAME, startGame);
 }
 
 export function* startGameWithPlayer() {
@@ -31,9 +32,8 @@ export function* startGame() {
 export function* endGame(message) {
   yield put(actions.grid.lock(true));
   yield put(actions.game.setMover(null));
-  NotificationManager.info(message, '🎉 Победа! 🎉', 3000);
+  NotificationManager.info(message, '🎉 Победа! 🎉', 3500);
   yield delay(3000);
-  yield put(push('/'));
 }
 
 function* startMove() {
@@ -49,7 +49,12 @@ function* startMove() {
 }
 
 export function* endMove(points) {
-  if (typeof points === 'number') yield call(addPoints, points);
+  if (typeof points === 'number') {
+    yield call(addPoints, points);
+
+    if (points > 999)
+    NotificationManager.info('10 000+ за ход!', 'Во дела!', 1800);
+  }
 
   yield put(actions.game.setTimer(null));
   yield call(checkPossibleMoves);

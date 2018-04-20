@@ -28,7 +28,7 @@ class NotificationManager extends EventEmitter {
       type: constants.INFO,
       title: null,
       message: null,
-      timeOut: 1500
+      timeOut: 1800
     };
 
     if (notify.priority) {

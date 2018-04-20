@@ -13,12 +13,13 @@ import {
 class Game extends Component {
   render() {
     const {grid, players, moveExpireAt, mover, locked} = this.props;
-    const {onMove, onMissMove, goToMenu} = this.props;
+    const {onMove, onMissMove, onRestart, goToMenu} = this.props;
 
     return (
       <Container className={styles.game}>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked}/>
+        <button onClick={onRestart}>Restart</button>
         <button onClick={goToMenu}>Main menu</button>
       </Container>
     );
@@ -32,6 +33,7 @@ export default connect(
   (dispatch) => ({
     onMove: (options) => dispatch(actions.grid.move(options)),
     onMissMove: () => dispatch(actions.game.missMove()),
+    onRestart: () => dispatch(actions.game.restartGame()),
     goToMenu: () => dispatch(push('/')),
   }),
 )(Game);
