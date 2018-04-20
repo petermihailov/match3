@@ -30,7 +30,7 @@ html {
 
 body {
   line-height: 1;
-  font-family: system-ui;
+  font-family: 'Amatic SC', system-ui, sans-serif;
 }
 
 ol, ul {

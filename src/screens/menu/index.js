@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import actions from './../../actions';
 import styles from './menu.scss';
 import {Container} from './../../components';
+import Logo from './logo';
 
 class Menu extends Component {
   render() {
@@ -10,8 +11,9 @@ class Menu extends Component {
 
     return (
       <Container className={styles.menu}>
+        <Logo className={styles.logo}/>
         <button onClick={startGame}>Start game</button>
-        <button onClick={startGameWithBot}>Game With BOT</button>
+        <button onClick={startGameWithBot}>Play with BOT</button>
       </Container>
     );
   }

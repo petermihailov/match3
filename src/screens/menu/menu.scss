@@ -1,5 +1,9 @@
 .menu {
   display: grid;
   grid-row-gap: 1em;
-  margin: 50px auto;
+  margin: 100px auto 0;
+
+  .logo {
+    margin: 0 auto;
+  }
 }
