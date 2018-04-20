@@ -1,12 +1,32 @@
 .logo {
   display: inline-block;
   font-size: 5em;
-  text-shadow: 2px 2px 20px currentColor;
 
-  .m {color: var(--color-malachite);}
-  .a {color: var(--color-sunshade);}
-  .t {color: var(--color-cinnabar);}
-  .c {color: var(--color-cerulean);}
-  .h {color: var(--color-wisteria);}
-  .three {color: var(--color-cinnabar);}
+  .m, .a, .t, .c, .h, .three {
+    text-shadow: 2px 2px 20px currentColor;
+  }
+
+  .m {
+    color: var(--color-malachite);
+  }
+
+  .a {
+    color: var(--color-sunshade);
+  }
+
+  .t {
+    color: var(--color-cinnabar);
+  }
+  .c {
+
+    color: var(--color-cerulean);
+  }
+
+  .h {
+    color: var(--color-wisteria);
+  }
+
+  .three {
+    color: var(--color-cinnabar);
+  }
 }

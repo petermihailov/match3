@@ -35,7 +35,7 @@ export default class Timer extends Component {
     const seconds = Math.ceil((until - Date.now()) / 1000);
     this.setState({seconds});
 
-    if (seconds === 0) {
+    if (seconds < 1) {
       this.clearTimer();
       this.props.onMissMove();
     }
