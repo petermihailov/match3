@@ -1,5 +1,6 @@
 body {
-    font-size: 20px;
+    font-family: system-ui, sans-serif;;
+    font-size: 16px;
     color: #fff;
     background-color: hsl(0, 0%, 15%);
 }
@@ -9,9 +10,8 @@ button {
     color: var(--color-cerulean);
     font-size: inherit;
     font-family: inherit;
-    font-weight: bold;
     text-transform: uppercase;
-    padding: .5em 1em;
+    padding: 1em;
     border: 1px solid currentColor;
     outline: none;
     user-select: none;
