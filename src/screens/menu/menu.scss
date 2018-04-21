@@ -1,10 +1,15 @@
 .menu {
   display: grid;
-  grid-row-gap: 1em;
+  grid-row-gap: 2em;
   margin: 100px auto 0;
 
   .logo {
-    margin: 0 auto 20px;
+    margin: auto;
     font-size: 5em;
+  }
+
+  .buttons {
+    display: grid;
+    grid-row-gap: 1em;
   }
 }

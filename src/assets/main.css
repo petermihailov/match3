@@ -8,7 +8,7 @@ body {
 button {
     background: none;
     color: var(--color-cerulean);
-    font-size: inherit;
+    font-size: .8em;
     font-family: inherit;
     text-transform: uppercase;
     padding: 1em;

@@ -1,6 +1,5 @@
 .logo {
-  display: inline-block;
-  font-family: 'Amatic SC', system-ui, sans-serif;
+  font-family: 'Amatic SC', sans-serif;
 
   .m, .a, .t, .c, .h, .three {
     text-shadow: 2px 2px 20px currentColor;
@@ -12,6 +11,7 @@
 
   .a {
     color: var(--color-sunshade);
+    animation: blinky 10s infinite;
   }
 
   .t {
@@ -28,5 +28,17 @@
 
   .three {
     color: var(--color-cinnabar);
+  }
+}
+
+@-webkit-keyframes blinky {
+  39%, 45%, 47% {
+    color: #111;
+    text-shadow: none
+  }
+
+  26%, 38%, 40%, 44%, 46%, 48% {
+    color: #faf37e;
+    text-shadow: 0 0 5px #ffa500, 0 0 15px #ffa500, 0 0 25px #ffa500, 0 0 35px #f00, 0 0 50px #f00, 0 0 65px #f00, 0 0 100px #f00
   }
 }

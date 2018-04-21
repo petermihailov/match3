@@ -12,8 +12,10 @@ class Menu extends Component {
     return (
       <Container className={styles.menu}>
         <Logo className={styles.logo}/>
-        <button onClick={startGameWithBot}>Play with BOT</button>
-        <button onClick={startGame}>Start game</button>
+        <div className={styles.buttons}>
+          <button onClick={startGameWithBot}>Play with BOT</button>
+          <button onClick={startGame}>Start game</button>
+        </div>
       </Container>
     );
   }
