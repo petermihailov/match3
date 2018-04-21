@@ -7,16 +7,17 @@ export default ({
 function updateScore(pointsNode, oldScore, newScore) {
   const animatedScore = {value: oldScore};
 
-  const animation = anime({
-    targets: animatedScore,
-    value: newScore,
-    round: 1,
-    easing: 'easeOutCirc',
-    duration: Math.abs(newScore - oldScore) / 3,
-    update: () => pointsNode.innerText = (animatedScore.value).toLocaleString('ru')
-  });
+  if (pointsNode) {
 
-  return animation.finished;
+    const animation = anime({
+      targets: animatedScore,
+      value: newScore,
+      round: 1,
+      easing: 'easeOutCirc',
+      duration: Math.abs(newScore - oldScore) / 3,
+      update: () => pointsNode.innerText = (animatedScore.value).toLocaleString('ru')
+    });
+
+    return animation.finished;
+  }
 }
-
-window.updateScore  = updateScore;
