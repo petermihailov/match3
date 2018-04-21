@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import cn from 'classnames';
 import styles from './timer.scss';
 
+const DEFAULT_SECONDS = 30;
+
 export default class Timer extends Component {
   state = {
-    seconds: 30
+    seconds: DEFAULT_SECONDS
   };
 
   timer = null;
@@ -14,10 +16,17 @@ export default class Timer extends Component {
     this.setTimer(moveExpireAt);
   }
 
-  componentWillReceiveProps({moveExpireAt}) {
+  componentWillReceiveProps({moveExpireAt, arrowPosition}) {
     if (this.props.moveExpireAt !== moveExpireAt) {
       this.clearTimer();
-      this.setTimer(moveExpireAt);
+
+      if (moveExpireAt) {
+        this.setTimer(moveExpireAt);
+      }
+    }
+
+    if (this.props.arrowPosition !== arrowPosition) {
+      this.setState({seconds: DEFAULT_SECONDS});
     }
   }
 
