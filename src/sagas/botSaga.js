@@ -5,6 +5,7 @@ import {delay} from 'redux-saga'
 import {startGame} from './gameSaga'
 import {sumRemoved, sumPoints} from './moveSaga'
 import {getGame} from './selectors'
+import {push} from 'react-router-redux';
 
 const DELAY = 1000;
 
@@ -15,6 +16,7 @@ export default function* gameWithBotSaga() {
 
 function* startGameWithBot() {
   yield put(actions.game.setGameWithBot(true));
+  yield put(push('game'));
   yield call(startGame);
 }
 

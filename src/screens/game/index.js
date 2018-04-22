@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
+import {push, goBack} from 'react-router-redux';
 import actions from './../../actions';
 import styles from './game.scss';
 
@@ -13,14 +13,14 @@ import {
 class Game extends Component {
   render() {
     const {grid, players, moveExpireAt, mover, locked} = this.props;
-    const {onMove, onMissMove, onRestart, goToMenu} = this.props;
+    const {onMove, onMissMove, onRestart, goBack} = this.props;
 
     return (
       <Container className={styles.game}>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked}/>
-        <button onClick={onRestart}>Рестарт</button>
-        <button onClick={goToMenu}>Меню</button>
+        <button onClick={onRestart}>Заново</button>
+        <button onClick={goBack}>Назад</button>
       </Container>
     );
   }
@@ -34,6 +34,6 @@ export default connect(
     onMove: (options) => dispatch(actions.grid.move(options)),
     onMissMove: () => dispatch(actions.game.missMove()),
     onRestart: () => dispatch(actions.game.restartGame()),
-    goToMenu: () => dispatch(push('/')),
+    goBack: () => dispatch(goBack()),
   }),
 )(Game);

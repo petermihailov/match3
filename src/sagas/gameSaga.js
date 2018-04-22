@@ -17,11 +17,11 @@ export default function* gameSaga() {
 
 export function* startGameWithPlayer() {
   yield put(actions.game.setGameWithBot(false));
+  yield put(push('game'));
   yield call(startGame);
 }
 
 export function* startGame() {
-  yield put(push('game'));
   yield put(actions.game.resetGame());
   yield put(actions.grid.createLevel());
   yield put(actions.game.setMover(Math.random() >= 0.5 ? 'left' : 'right'));

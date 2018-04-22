@@ -11,14 +11,21 @@
   border-radius: 5px;
   animation: fadeInDown .35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 
-  &.locked::after {
+  &::after {
+    opacity: 0;
     content: "";
+    pointer-events: none;
     position: absolute;
     top: -10px;
     bottom: -10px;
     left: -10px;
     right: -10px;
-    background-color: #0001;
+    background-color: #000;
+    transition: opacity .2s ease-in-out;
+  }
+
+  &.locked::after {
+    opacity: .12;
   }
 
   .piece {
