@@ -11,27 +11,30 @@ const SIZE = 50.828125;
 
 function swap({from, to}) {
   const gridNode = document.querySelector('[data-type="grid"]');
-  const fromNode = gridNode.querySelector(`[data-row='${from.row}'][data-col='${from.col}']`);
-  const toNode = gridNode.querySelector(`[data-row='${to.row}'][data-col='${to.col}']`);
 
-  if (gridNode && fromNode && toNode) {
-    const rectFrom = fromNode.getBoundingClientRect();
-    const rectTo = toNode.getBoundingClientRect();
-    const offset = ((rectTo.top - rectFrom.top) + (rectTo.left - rectFrom.left));
-    const axis = from.row !== to.row ? 'Y' : 'X';
+  if (gridNode) {
+    const fromNode = gridNode.querySelector(`[data-row='${from.row}'][data-col='${from.col}']`);
+    const toNode = gridNode.querySelector(`[data-row='${to.row}'][data-col='${to.col}']`);
 
-    const animation = anime({
-      targets: [fromNode, toNode],
-      [`translate${axis}`]: (el, i) => i === 0 ? offset : offset * -1,
-      elasticity: 0,
-      duration: 250
-    });
+    if (fromNode && toNode) {
+      const rectFrom = fromNode.getBoundingClientRect();
+      const rectTo = toNode.getBoundingClientRect();
+      const offset = ((rectTo.top - rectFrom.top) + (rectTo.left - rectFrom.left));
+      const axis = from.row !== to.row ? 'Y' : 'X';
 
-    animation.complete = () => {
-      [fromNode, toNode].forEach((node) => node.removeAttribute('style'));
-    };
+      const animation = anime({
+        targets: [fromNode, toNode],
+        [`translate${axis}`]: (el, i) => i === 0 ? offset : offset * -1,
+        elasticity: 0,
+        duration: 250
+      });
 
-    return animation.finished;
+      animation.complete = () => {
+        [fromNode, toNode].forEach((node) => node.removeAttribute('style'));
+      };
+
+      return animation.finished;
+    }
   }
 }
 

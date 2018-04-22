@@ -6,6 +6,7 @@ body {
 }
 
 button {
+    margin: 0;
     background: none;
     color: var(--color-cerulean);
     font-size: .8em;

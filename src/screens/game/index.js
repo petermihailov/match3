@@ -19,8 +19,8 @@ class Game extends Component {
       <Container className={styles.game}>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked}/>
-        <button onClick={onRestart}>Restart</button>
-        <button onClick={goToMenu}>Main menu</button>
+        <button onClick={onRestart}>Рестарт</button>
+        <button onClick={goToMenu}>Меню</button>
       </Container>
     );
   }

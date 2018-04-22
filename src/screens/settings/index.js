@@ -20,7 +20,7 @@ class Menu extends Component {
           </div>
         </div>
 
-        <button onClick={goBack}>Back</button>
+        <button onClick={goBack}>Назад</button>
       </Container>
     );
   }

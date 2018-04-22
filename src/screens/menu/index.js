@@ -10,9 +10,9 @@ const Menu = ({startGame, startGameWithBot, goToSettings}) => (
   <Container className={styles.menu}>
     <Logo className={styles.logo}/>
     <div className={styles.buttons}>
-      <button onClick={startGameWithBot}>Play with BOT</button>
-      <button onClick={startGame}>Start game</button>
-      <button onClick={goToSettings}>Settings</button>
+      <button onClick={startGameWithBot}>Играть с Ботом</button>
+      <button onClick={startGame}>Играть</button>
+      <button onClick={goToSettings}>Настройки</button>
     </div>
   </Container>
 );
