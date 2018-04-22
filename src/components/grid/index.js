@@ -76,12 +76,12 @@ export default class Grid extends Component {
 
   render() {
     const {active} = this.state;
-    const {data} = this.props;
+    const {data, locked} = this.props;
 
     return (
       <div
         data-type="grid"
-        className={styles.grid}
+        className={cn(styles.grid, {[styles.locked]: locked})}
         onClick={this.setActive}
         onTouchStart={(event) => {
           event.preventDefault();

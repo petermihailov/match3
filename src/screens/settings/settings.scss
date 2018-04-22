@@ -1,0 +1,31 @@
+.settings {
+  display: grid;
+  grid-row-gap: 1em;
+  margin: 100px auto 0;
+
+  .title {
+    line-height: 2em;
+  }
+
+  .btn-group {
+    display: flex;
+
+    button {
+      flex: 1;
+
+      &:not(:last-child) {
+        border-right: none;
+      }
+    }
+
+    .active {
+      color: #fff;
+      background-color: var(--color-cerulean);
+      border-color: var(--color-cerulean);
+    }
+  }
+
+  .buttons {
+
+  }
+}

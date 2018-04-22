@@ -19,15 +19,15 @@ function* startGameWithBot() {
 }
 
 function* botStartMove() {
-  const {grid} = yield select(getGame);
+  const {grid, botDifficulty} = yield select(getGame);
   const moves = m3.getMoves(grid);
-  const bestMove = getGoodMove(grid, moves);
+  const bestMove = getMove(grid, moves, botDifficulty);
 
   yield delay(DELAY);
   yield put(actions.grid.move(bestMove.coords))
 }
 
-function getGoodMove(grid, moves) {
+function getMove(grid, moves, botDifficulty) {
   const analyzedMoves = moves.map((move) => {
     let removedMatches = [];
     let newGrid = m3.swap(grid, move);
@@ -43,5 +43,11 @@ function getGoodMove(grid, moves) {
     return ({coords: move, points: sumPoints(sumRemoved(removedMatches))});
   });
 
-  return analyzedMoves.sort((a, b) => a.points < b.points ? 1 : -1)[0];
+  if (botDifficulty === 0) {
+    return analyzedMoves[Math.floor(Math.random() * analyzedMoves.length)];
+  }
+
+  if (botDifficulty === 1) {
+    return analyzedMoves.sort((a, b) => a.points < b.points ? 1 : -1)[0];
+  }
 }

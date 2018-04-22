@@ -10,6 +10,7 @@ const initialState = {
   mover: null,
   moveExpireAt: null,
   withBot: false,
+  botDifficulty: 1,
   players: {
     left: {
       name: '🎃',
@@ -78,6 +79,7 @@ export default function reduce(state = initialState, action = {}) {
         return ({
           ...initialState,
           withBot: true,
+          botDifficulty: state.botDifficulty,
           players: {
             left: {...state.players.left, name: '🤓', score: 0},
             right: {...state.players.left, name: '🤖', score: 0}
@@ -135,6 +137,12 @@ export default function reduce(state = initialState, action = {}) {
           left: {...state.players.left, additionalMove: false},
           right: {...state.players.right, additionalMove: false}
         }
+      });
+
+    case types.game.SET_BOT_DEFFICULTY:
+      return ({
+        ...state,
+        botDifficulty: action.payload
       });
 
     default:

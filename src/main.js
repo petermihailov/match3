@@ -12,6 +12,7 @@ import helloSaga from './sagas'
 
 import Game from './screens/game'
 import Menu from './screens/menu'
+import Settings from './screens/settings'
 
 import * as reducers from './reducers/index'
 
@@ -35,6 +36,7 @@ ReactDOM.render((
       <Switch>
         <Route exact path="/" component={Menu}/>
         <Route path="/game" component={Game}/>
+        <Route path="/settings" component={Settings}/>
       </Switch>
     </ConnectedRouter>
   </Provider>
