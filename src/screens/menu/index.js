@@ -4,12 +4,13 @@ import {push} from 'react-router-redux';
 import actions from './../../actions';
 import dict from './../../dict';
 import styles from './menu.scss';
-import {Container} from './../../components';
+import {Container, Fireworks} from './../../components';
 import Logo from './Logo';
 import GitHubLink from './GitHubLink';
 
 const Menu = ({lang, startGame, startGameWithBot, goToSettings, goToRules}) => (
   <Container className={styles.menu}>
+    <Fireworks/>
     <GitHubLink/>
     <Logo className={styles.logo}/>
     <div className={styles.buttons}>
