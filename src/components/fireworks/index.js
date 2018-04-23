@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import cn from 'classnames';
 import anime from 'animejs';
 import styles from './fireworks.scss'
 
@@ -120,10 +121,27 @@ export default class Fireworks extends Component {
   }
 
   animate = (e) => {
-    const pointerX = e.clientX || e.touches[0].clientX;
-    const pointerY = e.clientY || e.touches[0].clientY;
-    this.animateRender.play();
-    this.animateParticles(pointerX, pointerY);
+    const {disabled} = this.props;
+
+    if (!disabled) {
+      const pointerX = e.clientX || e.touches[0].clientX;
+      const pointerY = e.clientY || e.touches[0].clientY;
+      this.animateRender.play();
+      this.animateParticles(pointerX, pointerY);
+    }
+  };
+
+  autoFire = () => {
+    this.animateParticles(
+      anime.random(50, window.innerWidth - 50),
+      anime.random(50, window.innerHeight - 100)
+    );
+
+    const duration = anime.random(100, 500);
+
+    if (this.props.autoFire) {
+      anime({duration}).finished.then(this.autoFire);
+    }
   };
 
   componentDidMount() {
@@ -139,6 +157,10 @@ export default class Fireworks extends Component {
 
     this.setCanvasSize();
 
+    if (this.props.autoFire) {
+      this.autoFire();
+    }
+
     document.addEventListener('touchstart', this.animate);
     window.addEventListener('resize', this.setCanvasSize);
   }
@@ -148,9 +170,17 @@ export default class Fireworks extends Component {
     window.removeEventListener('resize', this.setCanvasSize);
   }
 
+  componentWillReceiveProps({autoFire}) {
+    if (autoFire) {
+      this.autoFire();
+    }
+  }
+
   render() {
+    const {className} = this.props;
+
     return (
-      <canvas ref={this.fireworksRef} className={styles.fireworks}/>
+      <canvas ref={this.fireworksRef} className={cn(styles.fireworks, className)}/>
     )
   }
 }

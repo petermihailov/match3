@@ -3,4 +3,8 @@
   display: grid;
   grid-row-gap: 1em;
   margin: 50px auto;
+
+  .fireworks {
+    z-index: 1;
+  }
 }

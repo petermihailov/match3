@@ -8,9 +8,7 @@ export default class Logo extends Component {
     this.logoRef = React.createRef();
   }
 
-  preventDefault = (e) => {
-    e.preventDefault()
-  };
+  preventDefault = (e) => e.preventDefault();
 
   componentDidMount() {
     this.logoRef.current.addEventListener('touchstart', this.preventDefault);

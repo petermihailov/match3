@@ -10,6 +10,27 @@
   border: 10px solid hsl(0, 0%, 25%);
   border-radius: 5px;
 
+  &::after {
+    opacity: 0;
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
+    background-color: #000;
+    transition: opacity .5s ease-in-out;
+  }
+
+  &.locked::after {
+    opacity: .12;
+  }
+
+  &.game-over::after {
+    opacity: .4;
+  }
+
   .piece {
     position: relative;
     display: flex;

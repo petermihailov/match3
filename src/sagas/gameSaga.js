@@ -30,6 +30,7 @@ export function* startGame() {
 }
 
 export function* endGame(message) {
+  yield put(actions.game.endGame());
   yield put(actions.grid.lock(true));
   yield put(actions.game.setMover(null));
   NotificationManager.info(message, '🎉 Победа! 🎉', 3500);

@@ -107,13 +107,19 @@ export default class Grid extends Component {
 
   render() {
     const {active} = this.state;
-    const {data, locked} = this.props;
+    const {data, isInGame, locked} = this.props;
 
     return (
       <div
         ref={this.gridRef}
         data-type="grid"
-        className={cn(styles.grid)}
+        className={cn(
+          styles.grid,
+          {
+            [styles['game-over']]: !isInGame,
+            [styles.locked]: locked
+          }
+        )}
         onClick={this.setActive}
       >
         {

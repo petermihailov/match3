@@ -11,6 +11,7 @@ const initialState = {
   moveExpireAt: null,
   withBot: false,
   botDifficulty: 1,
+  isInGame: false,
   players: {
     left: {
       name: '🎃',
@@ -74,11 +75,24 @@ export default function reduce(state = initialState, action = {}) {
       });
 
     // game reducers
+    case types.game.START_GAME:
+      return ({
+        ...state,
+        isInGame: true
+      });
+
+    case types.game.END_GAME:
+      return ({
+        ...state,
+        isInGame: false
+      });
+
     case types.game.RESET_GAME:
       if (state.withBot) {
         return ({
           ...initialState,
           withBot: true,
+          isInGame: true,
           botDifficulty: state.botDifficulty,
           players: {
             left: {...state.players.left, name: '🤓', score: 0},
@@ -86,12 +100,16 @@ export default function reduce(state = initialState, action = {}) {
           }
         })
       } else {
-        return initialState;
+        return {
+          ...initialState,
+          isInGame: true
+        };
       }
 
     case types.game.SET_GAME_WITH_BOT:
       return ({
         ...state,
+        isInGame: true,
         withBot: action.payload
       });
 

@@ -7,19 +7,21 @@ import styles from './game.scss';
 
 import {
   Grid,
+  Fireworks,
   StatusBar,
-  Container
+  Container,
 } from './../../components'
 
 class Game extends Component {
   render() {
-    const {lang, grid, players, moveExpireAt, mover, locked} = this.props;
+    const {lang, isInGame, grid, players, moveExpireAt, mover, locked} = this.props;
     const {onMove, onMissMove, onRestart, goBack} = this.props;
 
     return (
       <Container className={styles.game}>
+        <Fireworks className={styles.fireworks} disabled={isInGame} autoFire={!isInGame}/>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
-        <Grid data={grid} onMove={onMove} locked={locked}/>
+        <Grid data={grid} onMove={onMove} locked={locked} isInGame={isInGame}/>
         <button onClick={onRestart}>{dict[lang].restart}</button>
         <button onClick={goBack}>{dict[lang].back}</button>
       </Container>
