@@ -27,7 +27,6 @@ const store = createStore(combineReducers({...reducers, routing: routerReducer})
   )
 ));
 
-
 sagaMiddleware.run(helloSaga);
 
 ReactDOM.render((

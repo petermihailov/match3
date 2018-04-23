@@ -5,6 +5,11 @@ import styles from './grid.scss';
 import {NotificationContainer} from '../notifications';
 
 export default class Grid extends Component {
+  constructor(props) {
+    super(props);
+    this.gridRef = React.createRef();
+  }
+
   touchstartX = 0;
   touchstartY = 0;
   touchendX = 0;
@@ -12,6 +17,32 @@ export default class Grid extends Component {
 
   state = {
     active: null
+  };
+
+  componentDidMount() {
+    // iOS 11.3 uses passive event listeners by default
+    this.gridRef.current.addEventListener("touchstart", this.touchStartHandler, {passive: false});
+    this.gridRef.current.addEventListener("touchend", this.touchEndHandler, {passive: false});
+  }
+
+  componentWillUnmount() {
+    this.gridRef.current.removeEventListener("touchstart", this.touchStartHandler);
+    this.gridRef.current.removeEventListener("touchend", this.touchEndHandler);
+  }
+
+  touchStartHandler = (e) => {
+    e.preventDefault();
+    this.touchstartX = e.changedTouches[0].screenX;
+    this.touchstartY = e.changedTouches[0].screenY;
+    this.setActive(e);
+  };
+
+  touchEndHandler = (e) => {
+    e.preventDefault();
+    this.touchendX = e.changedTouches[0].screenX;
+    this.touchendY = e.changedTouches[0].screenY;
+    this.handleSwipe();
+    this.resetActive();
   };
 
   setActive = (e) => {
@@ -80,22 +111,10 @@ export default class Grid extends Component {
 
     return (
       <div
+        ref={this.gridRef}
         data-type="grid"
-        className={cn(styles.grid, {[styles.locked]: locked})}
+        className={cn(styles.grid)}
         onClick={this.setActive}
-        onTouchStart={(event) => {
-          event.preventDefault();
-          this.touchstartX = event.changedTouches[0].screenX;
-          this.touchstartY = event.changedTouches[0].screenY;
-          this.setActive(event);
-        }}
-        onTouchEnd={(event) => {
-          event.preventDefault();
-          this.touchendX = event.changedTouches[0].screenX;
-          this.touchendY = event.changedTouches[0].screenY;
-          this.handleSwipe();
-          this.resetActive();
-        }}
       >
         {
           data.map((i, row) => i.map((piece, col) => {
