@@ -7,6 +7,7 @@ export default class Logo extends Component {
     super(props);
     this.logoRef = React.createRef();
   }
+
   preventDefault = (e) => {
     e.preventDefault()
   };
@@ -26,7 +27,6 @@ export default class Logo extends Component {
       <div
         ref={this.logoRef}
         className={cn(styles.logo, className)}
-        onTouchStart={(e) => e.preventDefault()}
       >
         <span className={styles.m}>M</span>
         <span className={styles.a}>A</span>
