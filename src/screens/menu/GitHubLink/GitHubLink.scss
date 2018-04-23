@@ -1,0 +1,32 @@
+.link {
+  position: fixed;
+  display: flex;
+  align-items: flex-end;
+  height: 120px;
+  width: 120px;
+  top: -60px;
+  right: -60px;
+  transform: rotate(45deg);
+
+  .container {
+    position: relative;
+    width: 100%;
+    padding: 2px 0;
+    background: aliceblue;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      bottom: 1px;
+      left: 0;
+      right: 0;
+      border: 1px dashed #0004;
+    }
+
+    svg {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}

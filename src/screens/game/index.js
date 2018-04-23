@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {push, goBack} from 'react-router-redux';
+import {goBack} from 'react-router-redux';
 import actions from './../../actions';
+import dict from './../../dict';
 import styles from './game.scss';
 
 import {
@@ -12,15 +13,15 @@ import {
 
 class Game extends Component {
   render() {
-    const {grid, players, moveExpireAt, mover, locked} = this.props;
+    const {lang, grid, players, moveExpireAt, mover, locked} = this.props;
     const {onMove, onMissMove, onRestart, goBack} = this.props;
 
     return (
       <Container className={styles.game}>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked}/>
-        <button onClick={onRestart}>Заново</button>
-        <button onClick={goBack}>Назад</button>
+        <button onClick={onRestart}>{dict[lang].restart}</button>
+        <button onClick={goBack}>{dict[lang].back}</button>
       </Container>
     );
   }
@@ -28,7 +29,8 @@ class Game extends Component {
 
 export default connect(
   (state) => ({
-    ...state.game
+    ...state.game,
+    lang: state.i18n.lang
   }),
   (dispatch) => ({
     onMove: (options) => dispatch(actions.grid.move(options)),

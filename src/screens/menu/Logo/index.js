@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import styles from './logo.scss';
+import styles from './Logo.scss';
 
 const Index = ({className}) => (
   <span className={cn(styles.logo, className)}>

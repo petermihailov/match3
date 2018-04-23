@@ -16,7 +16,6 @@ import Settings from './screens/settings'
 
 import * as reducers from './reducers/index'
 
-
 const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

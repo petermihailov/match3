@@ -1,5 +1,7 @@
 import game from './game';
+import i18n from './i18n';
 
 export {
-  game
+  game,
+  i18n,
 };
