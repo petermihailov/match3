@@ -23,3 +23,14 @@ button:active {
     color: #fff;
     border: 1px solid var(--color-cerulean);;
 }
+
+h1 {
+    color: var(--color-cerulean);
+    margin: 0 auto;
+    font-size: 4em;
+    font-family: 'Amatic SC', sans-serif;
+}
+
+p {
+    margin: 1em 0;
+}

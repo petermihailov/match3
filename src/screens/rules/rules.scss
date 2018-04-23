@@ -1,0 +1,9 @@
+.rules {
+  display: grid;
+  grid-row-gap: 1em;
+  margin: 100px auto 0;
+
+  .accent {
+    color: var(--color-cerulean);
+  }
+}

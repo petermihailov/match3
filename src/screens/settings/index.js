@@ -9,6 +9,7 @@ import {Container} from './../../components';
 
 const Settings = ({lang, setLang, botDifficulty, setBotDifficulty, goBack}) => (
   <Container className={styles.settings}>
+    <h1>{dict[lang].settings.label}</h1>
     <div>
       <div className={styles.title}>{dict[lang].settings.botDifficulty}</div>
       <div className={styles["btn-group"]}>

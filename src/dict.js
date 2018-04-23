@@ -16,6 +16,10 @@ const dict = {
       langEn: 'English'
     },
 
+    rules: {
+      label: 'Правила',
+    },
+
     gameMessages: {
       additionalMove: {
         title: '5 в ряд!',
@@ -50,6 +54,10 @@ const dict = {
       lang: 'Language',
       langRu: 'Русский',
       langEn: 'English'
+    },
+
+    rules: {
+      label: 'Rules (Rus)',
     },
 
     gameMessages: {

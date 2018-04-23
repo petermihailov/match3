@@ -8,7 +8,7 @@ import {Container} from './../../components';
 import Logo from './Logo';
 import GitHubLink from './GitHubLink';
 
-const Menu = ({lang, startGame, startGameWithBot, goToSettings}) => (
+const Menu = ({lang, startGame, startGameWithBot, goToSettings, goToRules}) => (
   <Container className={styles.menu}>
     <GitHubLink/>
     <Logo className={styles.logo}/>
@@ -16,6 +16,7 @@ const Menu = ({lang, startGame, startGameWithBot, goToSettings}) => (
       <button onClick={startGameWithBot}>{dict[lang].startGameWithBot}</button>
       <button onClick={startGame}>{dict[lang].startGame}</button>
       <button onClick={goToSettings}>{dict[lang].settings.label}</button>
+      <button onClick={goToRules}>{dict[lang].rules.label}</button>
     </div>
   </Container>
 );
@@ -28,5 +29,6 @@ export default connect(
     startGame: () => dispatch(actions.game.startGame()),
     startGameWithBot: () => dispatch(actions.game.startGameWithBot()),
     goToSettings: () => dispatch(push('settings')),
+    goToRules: () => dispatch(push('rules')),
   }),
 )(Menu);
