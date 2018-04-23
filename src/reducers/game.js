@@ -157,12 +157,6 @@ export default function reduce(state = initialState, action = {}) {
         }
       });
 
-    case types.game.SET_BOT_DEFFICULTY:
-      return ({
-        ...state,
-        botDifficulty: action.payload
-      });
-
     default:
       return state;
   }

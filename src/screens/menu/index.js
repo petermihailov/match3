@@ -24,7 +24,7 @@ const Menu = ({lang, startGame, startGameWithBot, goToSettings, goToRules}) => (
 
 export default connect(
   (state) => ({
-    lang: state.i18n.lang
+    lang: state.settings.lang
   }),
   (dispatch) => ({
     startGame: () => dispatch(actions.game.startGame()),

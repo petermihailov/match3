@@ -32,7 +32,7 @@ class Game extends Component {
 export default connect(
   (state) => ({
     ...state.game,
-    lang: state.i18n.lang
+    lang: state.settings.lang
   }),
   (dispatch) => ({
     onMove: (options) => dispatch(actions.grid.move(options)),

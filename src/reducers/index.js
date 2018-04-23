@@ -1,7 +1,7 @@
 import game from './game';
-import i18n from './i18n';
+import settings from './settings';
 
 export {
   game,
-  i18n,
+  settings,
 };

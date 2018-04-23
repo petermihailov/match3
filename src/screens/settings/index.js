@@ -41,8 +41,8 @@ const Settings = ({lang, setLang, botDifficulty, setBotDifficulty, goBack}) => (
 
 export default connect(
   (state) => ({
-    botDifficulty: state.game.botDifficulty,
-    lang: state.i18n.lang,
+    botDifficulty: state.settings.botDifficulty,
+    lang: state.settings.lang,
   }),
   (dispatch) => ({
     setBotDifficulty: (val) => dispatch(actions.game.setBotDifficulty(val)),

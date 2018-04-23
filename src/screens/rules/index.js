@@ -37,7 +37,7 @@ const Rules = ({lang, goBack}) => (
 
 export default connect(
   (state) => ({
-    lang: state.i18n.lang
+    lang: state.settings.lang
   }),
   (dispatch) => ({
     goBack: () => dispatch(goBack()),
