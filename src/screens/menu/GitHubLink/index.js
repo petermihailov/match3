@@ -6,6 +6,7 @@ const GitHubLink = ({className}) => (
   <a
     className={cn(styles.link, className)}
     href="https://github.com/petermihailov/match3"
+    target="_blank"
   >
     <div className={styles.container}>
       <svg height="24" viewBox="0 0 45 16" version="1.1" width="67">

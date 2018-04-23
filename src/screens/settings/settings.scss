@@ -1,7 +1,12 @@
 .settings {
   display: grid;
-  grid-row-gap: 1em;
+  grid-row-gap: 2em;
   margin: 2em auto 0;
+
+  .list {
+    display: grid;
+    grid-row-gap: .5em;
+  }
 
   .title {
     line-height: 2em;
