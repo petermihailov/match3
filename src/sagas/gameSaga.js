@@ -19,6 +19,13 @@ export function* startGameWithPlayer() {
   yield put(actions.game.setGameWithBot(false));
   yield put(push('game'));
   yield call(startGame);
+
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'game',
+    eventAction: 'startGameWithPlayer',
+    eventLabel: 'Start game with Player'
+  });
 }
 
 export function* startGame() {
