@@ -13,7 +13,8 @@ const dict = {
       botDifficultyMedium: 'Средний',
       lang: 'Язык',
       langRu: 'Русский',
-      langEn: 'English'
+      langEn: 'English',
+      scoreToWin: 'Сколько очков до победы?'
     },
 
     rules: {
@@ -53,7 +54,8 @@ const dict = {
       botDifficultyMedium: 'Medium',
       lang: 'Language',
       langRu: 'Русский',
-      langEn: 'English'
+      langEn: 'English',
+      scoreToWin: 'Score to win'
     },
 
     rules: {

@@ -8,7 +8,6 @@ import {getGame, getSettings} from './selectors';
 import dict from './../dict';
 
 const MOVE_TIME = 30000;
-const SCORE_TO_WIN = 20000;
 const MISSED_MOVES_TO_LOOSE = 2;
 
 export default function* gameSaga() {
@@ -89,9 +88,9 @@ function* switchMover() {
 
 function* checkWinner() {
   const {players} = yield select(getGame);
-  const {lang} = yield select(getSettings);
+  const {scoreToWin, lang} = yield select(getSettings);
 
-  const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= SCORE_TO_WIN);
+  const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= scoreToWin);
   const pointsWinner = pointsWinnerMover && players[pointsWinnerMover];
   const technicalLooserMover = Object.keys(players).find((player) => players[player].missedMoves >= MISSED_MOVES_TO_LOOSE);
   const technicalWinner = technicalLooserMover && players[technicalLooserMover === 'left' ? 'right' : 'left'];
