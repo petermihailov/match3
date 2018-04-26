@@ -4,8 +4,9 @@ import animations from './../animations'
 import {put, call, takeEvery, select} from 'redux-saga/effects'
 import {NotificationManager} from './../components/notifications'
 import {delay} from 'redux-saga'
-import {getGame} from './selectors'
 import {endMove} from './gameSaga'
+import {getGame, getSettings} from './selectors';
+import dict from './../dict';
 
 const DELAY = 200;
 
@@ -92,7 +93,10 @@ function* findAndRemoveMatches(matches, acc = []) {
 
 function* handleAdditionMove(matches) {
   if (matches.find((m) => m.length > 4)) {
-    NotificationManager.info('Дополнительный ход!', '5 в ряд!');
+    const {lang} = yield select(getSettings);
+    const msg = dict[lang].gameMessages.additionalMove;
+
+    NotificationManager.info(msg.message, msg.title);
     yield put(actions.game.setAdditionalMove());
   }
 }

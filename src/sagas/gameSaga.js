@@ -1,10 +1,11 @@
 import * as m3 from 'm3lib';
 import {push} from 'react-router-redux';
-import {delay} from 'redux-saga'
-import actions, {types} from '../actions'
-import {put, call, takeLatest, select} from 'redux-saga/effects'
+import {delay} from 'redux-saga';
+import actions, {types} from '../actions';
+import {put, call, takeLatest, select} from 'redux-saga/effects';
 import {NotificationManager} from './../components/notifications';
-import {getGame} from './selectors'
+import {getGame, getSettings} from './selectors';
+import dict from './../dict';
 
 const MOVE_TIME = 30000;
 const SCORE_TO_WIN = 20000;
@@ -36,11 +37,11 @@ export function* startGame() {
   yield call(startMove);
 }
 
-export function* endGame(message) {
+export function* endGame(message, title) {
   yield put(actions.game.endGame());
   yield put(actions.grid.lock(true));
   yield put(actions.game.setMover(null));
-  NotificationManager.info(message, '🎉 Победа! 🎉', 3500);
+  NotificationManager.info(message, title, 3500);
   yield delay(3000);
 }
 
@@ -60,8 +61,11 @@ export function* endMove(points) {
   if (typeof points === 'number') {
     yield call(addPoints, points);
 
-    if (points > 9999)
-    NotificationManager.info('10 000+ за ход!', 'Во дела!', 1800);
+    if (points > 9999) {
+      const {lang} = yield select(getSettings);
+      const message = dict[lang].gameMessages.goodMove;
+      NotificationManager.info(message.message, message.title, 1800);
+    }
   }
 
   yield put(actions.game.setTimer(null));
@@ -85,6 +89,8 @@ function* switchMover() {
 
 function* checkWinner() {
   const {players} = yield select(getGame);
+  const {lang} = yield select(getSettings);
+
   const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= SCORE_TO_WIN);
   const pointsWinner = pointsWinnerMover && players[pointsWinnerMover];
   const technicalLooserMover = Object.keys(players).find((player) => players[player].missedMoves >= MISSED_MOVES_TO_LOOSE);
@@ -92,16 +98,17 @@ function* checkWinner() {
   const winner = pointsWinner || technicalWinner;
 
   if (winner) {
-    yield call(endGame, `Игрок ${winner.name} победил!`);
+    yield call(endGame, dict[lang].gameMessages.win.message(winner.name), dict[lang].gameMessages.win.title);
     return winner;
   }
 }
 
 function* checkPossibleMoves() {
   const {grid} = yield select(getGame);
+  const {lang} = yield select(getSettings);
 
   if (m3.getMoves(grid).length === 0) {
-    NotificationManager.info('Нет ходов');
+    NotificationManager.info(dict[lang].gameMessages.noMoves);
     yield put(actions.grid.createLevel());
   }
 }
