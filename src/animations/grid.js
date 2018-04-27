@@ -127,9 +127,10 @@ function fillVoid(changes) {
 
       return ({
         targets: node,
-        scale: [0, 1],
+        opacity: [0, 1],
+        translateY: [-(SIZE * 2), 0],
         offset: 0,
-        duration: 250,
+        duration: 400,
         elasticity: 100
       })
     });

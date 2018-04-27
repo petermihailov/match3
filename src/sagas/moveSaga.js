@@ -82,7 +82,6 @@ function* findAndRemoveMatches(matches, acc = []) {
     yield call(removeMatches, matches);
     yield call(applyGravity);
     yield call(fillVoid);
-    yield delay(DELAY);
 
     const {grid} = yield select(getGame);
     yield call(findAndRemoveMatches, m3.getMatches(grid), acc);
