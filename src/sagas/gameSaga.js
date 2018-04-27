@@ -32,7 +32,6 @@ export function* startGame() {
   yield put(actions.game.resetGame());
   yield put(actions.grid.createLevel());
   yield put(actions.game.setMover(Math.random() >= 0.5 ? 'left' : 'right'));
-  yield put(actions.grid.lock(false));
   yield call(startMove);
 }
 
@@ -80,7 +79,8 @@ function* switchMover() {
   if (players[mover].additionalMove) {
     yield put(actions.game.resetAdditionalMove());
   } else {
-    yield put(actions.game.setMover(mover === 'left' ? 'right' : 'left'));
+    const nextMover = mover === 'left' ? 'right' : 'left';
+    yield put(actions.game.setMover(nextMover));
   }
 
   yield call(startMove);

@@ -91,6 +91,7 @@ export default function reduce(state = initialState, action = {}) {
       if (state.withBot) {
         return ({
           ...initialState,
+          locked: true,
           withBot: true,
           isInGame: true,
           botDifficulty: state.botDifficulty,

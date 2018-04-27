@@ -11,7 +11,7 @@ const DELAY = 1000;
 
 export default function* gameWithBotSaga() {
   yield takeLatest(types.game.START_GAME_WITH_BOT, startGameWithBot);
-  yield takeEvery(types.game.BOT_START_MOVE, botStartMove)
+  yield takeLatest(types.game.BOT_START_MOVE, botStartMove)
 }
 
 function* startGameWithBot() {
