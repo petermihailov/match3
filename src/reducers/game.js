@@ -10,7 +10,6 @@ const initialState = {
   mover: null,
   moveExpireAt: null,
   withBot: false,
-  botDifficulty: 1,
   isInGame: false,
   players: {
     left: {
@@ -94,7 +93,6 @@ export default function reduce(state = initialState, action = {}) {
           locked: true,
           withBot: true,
           isInGame: true,
-          botDifficulty: state.botDifficulty,
           players: {
             left: {...state.players.left, name: '🤓', score: 0},
             right: {...state.players.left, name: '🤖', score: 0}
