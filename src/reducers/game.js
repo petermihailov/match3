@@ -11,18 +11,21 @@ const initialState = {
   moveExpireAt: null,
   withBot: false,
   isInGame: false,
+  winner: null,
   players: {
     left: {
       name: '🎃',
       score: 0,
       missedMoves: 0,
-      additionalMove: false
+      additionalMove: false,
+      isBot: false
     },
     right: {
       name: '🥕',
       score: 0,
       missedMoves: 0,
-      additionalMove: false
+      additionalMove: false,
+      isBot: false
     }
   }
 };
@@ -95,7 +98,7 @@ export default function reduce(state = initialState, action = {}) {
           isInGame: true,
           players: {
             left: {...state.players.left, name: '🤓', score: 0},
-            right: {...state.players.left, name: '🤖', score: 0}
+            right: {...state.players.left, name: '🤖', score: 0, isBot: true}
           }
         })
       } else {
@@ -154,6 +157,12 @@ export default function reduce(state = initialState, action = {}) {
           left: {...state.players.left, additionalMove: false},
           right: {...state.players.right, additionalMove: false}
         }
+      });
+
+    case types.game.SET_WINNER:
+      return ({
+        ...state,
+        winner: action.payload
       });
 
     default:

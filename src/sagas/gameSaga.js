@@ -9,6 +9,7 @@ import dict from './../dict';
 
 const MOVE_TIME = 30000;
 const MISSED_MOVES_TO_LOOSE = 2;
+const SCORE_TO_WIN_STUB = null;
 
 export default function* gameSaga() {
   yield takeLatest(types.game.START_GAME, startGameWithPlayer);
@@ -39,7 +40,7 @@ export function* endGame(message, title) {
   yield put(actions.game.endGame());
   yield put(actions.grid.lock(true));
   yield put(actions.game.setMover(null));
-  NotificationManager.info(message, title, 3500);
+  NotificationManager.info(message, title);
   yield delay(3000);
 }
 
@@ -90,14 +91,19 @@ function* checkWinner() {
   const {players} = yield select(getGame);
   const {scoreToWin, lang} = yield select(getSettings);
 
-  const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= scoreToWin);
+  const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= (SCORE_TO_WIN_STUB || scoreToWin));
   const pointsWinner = pointsWinnerMover && players[pointsWinnerMover];
   const technicalLooserMover = Object.keys(players).find((player) => players[player].missedMoves >= MISSED_MOVES_TO_LOOSE);
   const technicalWinner = technicalLooserMover && players[technicalLooserMover === 'left' ? 'right' : 'left'];
+
+  const winnerMover = pointsWinnerMover || technicalLooserMover;
   const winner = pointsWinner || technicalWinner;
 
   if (winner) {
-    yield call(endGame, dict[lang].gameMessages.win.message(winner.name), dict[lang].gameMessages.win.title);
+    const winOrLoose = winner.isBot ? 'loose' : 'win';
+    yield put(actions.game.setWinner(winnerMover));
+
+    yield call(endGame, dict[lang].gameMessages[winOrLoose].message(winner.name), dict[lang].gameMessages[winOrLoose].title);
     return winner;
   }
 }

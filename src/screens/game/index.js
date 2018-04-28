@@ -14,12 +14,13 @@ import {
 
 class Game extends Component {
   render() {
-    const {lang, isInGame, grid, players, moveExpireAt, mover, locked} = this.props;
+    const {lang, winner, isInGame, grid, players, moveExpireAt, mover, locked} = this.props;
     const {onMove, onMissMove, onRestart, goBack} = this.props;
+    const autoFire = !isInGame && winner && players && !players[winner].isBot;
 
     return (
       <Container className={styles.game}>
-        <Fireworks className={styles.fireworks} disabled={isInGame} autoFire={!isInGame}/>
+        <Fireworks className={styles.fireworks} disabled={isInGame} autoFire={autoFire}/>
         <StatusBar {...{players, moveExpireAt, mover, onMissMove}} />
         <Grid data={grid} onMove={onMove} locked={locked} isInGame={isInGame}/>
         <button onClick={onRestart}>{dict[lang].restart}</button>

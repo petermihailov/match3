@@ -14,7 +14,7 @@ const dict = {
       lang: 'Язык',
       langRu: 'Русский',
       langEn: 'English',
-      scoreToWin: 'Сколько очков до победы?'
+      scoreToWin: 'Очки до победы'
     },
 
     rules: {
@@ -29,6 +29,10 @@ const dict = {
       win: {
         title: '🎉 Победа! 🎉',
         message: (winner) => `Игрок ${winner} выиграл!`
+      },
+      loose: {
+        title: '😭 Поражение! 😭',
+        message: (winner) => `Вы проиграли!`
       },
       goodMove: {
         title: 'Во дела!',
@@ -70,6 +74,10 @@ const dict = {
       win: {
         title: '🎉 Victory! 🎉',
         message: (winner) => `Player ${winner} won!`
+      },
+      loose: {
+        title: '😭 Game over! 😭',
+        message: (winner) => `You loose!`
       },
       goodMove: {
         title: 'God move!',

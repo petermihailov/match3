@@ -4,8 +4,16 @@ import styles from './GitHubLink.scss';
 
 const GitHubLink = ({className}) => (
   <a
+    onClick={() => {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'github',
+        eventAction: 'clickGitHubLink',
+        eventLabel: 'Click GitHub link'
+      });
+    }}
     className={cn(styles.link, className)}
-    href="https://github.com/petermihailov/match3"
+    href="https://github.com/petermihailov/match3/"
     target="_blank"
   >
     <div className={styles.container}>

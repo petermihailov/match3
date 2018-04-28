@@ -17,6 +17,7 @@ export const types = {
   SET_ADDITIONAL_MOVE: 'SET_ADDITIONAL_MOVE',
   RESET_ADDITIONAL_MOVE: 'RESET_ADDITIONAL_MOVE',
   SET_SCORE_TO_WIN: 'SET_SCORE_TO_WIN',
+  SET_WINNER: 'SET_WINNER',
 };
 
 const actions = ({
@@ -36,6 +37,7 @@ const actions = ({
   setAdditionalMove: makeAction(types.SET_ADDITIONAL_MOVE),
   resetAdditionalMove: makeAction(types.RESET_ADDITIONAL_MOVE),
   setScoreToWin: makeAction(types.SET_SCORE_TO_WIN),
+  setWinner: makeAction(types.SET_WINNER),
 });
 
 export default actions;

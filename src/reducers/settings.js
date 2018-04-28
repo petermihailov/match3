@@ -1,9 +1,9 @@
 import {types} from '../actions';
 
 const initialState = {
-  lang: 'ru',
+  lang: 'en',
   scoreToWin: 20000,
-  botDifficulty: 1
+  botDifficulty: 0
 };
 
 export default function reduce(state = initialState, action = {}) {
