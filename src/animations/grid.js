@@ -129,7 +129,7 @@ function fillVoid(changes) {
         targets: node,
         opacity: [0, 1],
         translateY: [-(SIZE * 2), 0],
-        offset: 0,
+        offset: anime.random(0, 100),
         duration: 400,
         elasticity: 100
       })
