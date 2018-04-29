@@ -1,5 +1,4 @@
 .fireworks {
-  touch-action: none;
   pointer-events: none;
   z-index: -1;
   position: fixed;
@@ -9,4 +8,5 @@
   bottom: 0;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
+  user-select: none;
 }
