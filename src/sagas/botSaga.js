@@ -33,20 +33,44 @@ function* botStartMove() {
   const moves = m3.getMoves(grid);
   const bestMove = getMove(grid, moves, botDifficulty);
 
-  yield delay(DELAY);
+  yield delay(DELAY + (botDifficulty * 500));
   yield put(actions.grid.move(bestMove.coords))
 }
 
 function getMove(grid, moves, botDifficulty) {
-  const checkDeep = (deep) => {
-    if (botDifficulty === 0) {
-      return deep < 1
+  switch (botDifficulty) {
+    case 0: {
+      const analyzedMoves = analyzeMoves(grid, moves, 1);
+      const idx = Math.round(Math.random() * analyzedMoves.length);
+
+      return analyzedMoves[idx];
+    }
+    case 1: {
+      const analyzedMoves = analyzeMoves(grid, moves);
+
+      return analyzedMoves.sort((a, b) => {
+        if (a.haveAdditionalMove && !b.haveAdditionalMove) {
+          return -1;
+        } else if (!a.haveAdditionalMove && b.haveAdditionalMove) {
+          return 1;
+        }
+
+        return a.points < b.points ? 1 : -1
+      })[0];
+    }
+  }
+}
+
+function analyzeMoves(grid, moves, deep) {
+  const checkDeep = (deepInc) => {
+    if (deep !== undefined) {
+      return deepInc < deep
     } else {
       return true;
     }
   };
 
-  const analyzedMoves = moves.map((move) => {
+  return moves.map((move) => {
     let removedMatches = [];
     let newGrid = m3.swap(grid, move);
     let matches = m3.getMatches(newGrid);
@@ -74,14 +98,4 @@ function getMove(grid, moves, botDifficulty) {
       haveAdditionalMove
     });
   });
-
-  return analyzedMoves.sort((a, b) => {
-    if (a.haveAdditionalMove && !b.haveAdditionalMove) {
-      return -1;
-    } else if (!a.haveAdditionalMove && b.haveAdditionalMove) {
-      return 1;
-    }
-
-    return a.points < b.points ? 1 : -1
-  })[0];
 }
