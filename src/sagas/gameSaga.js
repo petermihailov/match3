@@ -88,7 +88,7 @@ function* switchMover() {
 }
 
 function* checkWinner() {
-  const {players} = yield select(getGame);
+  const {players, withBot} = yield select(getGame);
   const {scoreToWin, lang} = yield select(getSettings);
 
   const pointsWinnerMover = Object.keys(players).find((player) => players[player].score >= (SCORE_TO_WIN_STUB || scoreToWin));
@@ -102,6 +102,14 @@ function* checkWinner() {
   if (winner) {
     const winOrLoose = winner.isBot ? 'loose' : 'win';
     yield put(actions.game.setWinner(winnerMover));
+
+    if (withBot) {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'game',
+        eventAction: winOrLoose
+      });
+    }
 
     yield call(endGame, dict[lang].gameMessages[winOrLoose].message(winner.name), dict[lang].gameMessages[winOrLoose].title);
     return winner;
