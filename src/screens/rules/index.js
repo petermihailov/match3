@@ -1,12 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {goBack} from 'react-router-redux';
-import actions from './../../actions';
 import dict from './../../dict';
 import styles from './rules.scss';
 import {Container} from './../../components';
 
-const Rules = ({lang, goBack}) => (
+const Rules = ({lang, scoreToWin, goBack}) => (
   <Container className={styles.rules}>
     <h1>{dict[lang].rules.label}</h1>
     <div>
@@ -28,7 +27,7 @@ const Rules = ({lang, goBack}) => (
       </p>
       <p>
         Каждая фишка имеет свой цвет и номинал. Бой ведется до тех пор пока кто-то из игроков не набирет 
-        <span className={styles.accent}>{(20000).toLocaleString('ru')}</span> очков.
+        <span className={styles.accent}>{(scoreToWin).toLocaleString('ru')}</span> очков.
       </p>
     </div>
     <button onClick={goBack}>{dict[lang].back}</button>
@@ -37,7 +36,8 @@ const Rules = ({lang, goBack}) => (
 
 export default connect(
   (state) => ({
-    lang: state.settings.lang
+    lang: state.settings.lang,
+    scoreToWin: state.settings.scoreToWin
   }),
   (dispatch) => ({
     goBack: () => dispatch(goBack()),
