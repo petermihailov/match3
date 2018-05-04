@@ -39,7 +39,7 @@ const scss = {
 
 module.exports = (env, argv) => {
   return ({
-    entry: ['babel-polyfill', './src/main.js', './src/assets/reset.css', './src/assets/colors.css', './src/assets/main.css'],
+    entry: ['babel-polyfill', './src/main.js', './src/reset.css', './src/colors.css', './src/main.css'],
     output: {
       path: __dirname + '/docs'
     },
@@ -61,6 +61,16 @@ module.exports = (env, argv) => {
             }
           ]
         },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          use: [{
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }]
+        },
         scss[argv.mode]
       ]
     },
@@ -74,7 +84,9 @@ module.exports = (env, argv) => {
         filename: "[name].css",
         chunkFilename: "[id].css"
       }),
-      new CopyWebpackPlugin([{from: './src/manifest.json', to: './manifest.json'}])
+      new CopyWebpackPlugin([
+        {from: './src/manifest.json', to: './manifest.json'}
+      ])
     ]
   });
 };

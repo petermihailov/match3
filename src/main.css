@@ -1,9 +1,16 @@
+@font-face {
+    font-family: 'Amatic';
+    src: url('./fonts/AmaticSC-Regular.ttf')  format('truetype');
+    font-style: normal;
+    font-weight: normal;
+}
+
 html {
     min-height: 100%;
 }
 
 body {
-    font-family: system-ui, sans-serif;;
+    font-family: system-ui, sans-serif;
     font-size: 16px;
     color: #fff;
     background-color: hsl(0, 0%, 15%);
@@ -32,7 +39,7 @@ h1 {
     color: var(--color-cerulean);
     margin: 0 auto;
     font-size: 4em;
-    font-family: 'Amatic SC', sans-serif;
+    font-family: 'Amatic', sans-serif;
 }
 
 p {
